@@ -1,0 +1,84 @@
+<app-page-header title="Perfil" />
+
+<ion-content>
+  <main class="em-container">
+    <app-recovery-notice />
+
+    @if (assisted(); as ana) {
+      <header class="profile-head">
+        <span class="em-avatar profile-avatar" aria-hidden="true">@if (ana.photoDataUrl) { <img [src]="ana.photoDataUrl" alt="" /> } @else { {{ ana.initials }} }</span>
+        <div>
+          <h1>{{ ana.displayName }}</h1>
+          <p class="em-muted">Perfil da pessoa assistida</p>
+          <div class="photo-actions">
+            <label class="photo-upload" for="ana-photo">Adicionar ou trocar foto</label>
+            <input id="ana-photo" type="file" accept="image/jpeg,image/png,image/webp" (change)="changeAnaPhoto($event)" />
+            @if (ana.photoDataUrl) { <ion-button size="small" fill="clear" color="medium" (click)="removeAnaPhoto()">Remover foto</ion-button> }
+          </div>
+        </div>
+      </header>
+    }
+
+    <section class="em-card em-card-highlight em-stack" aria-labelledby="family-area-title">
+      <h2 id="family-area-title" class="em-section-title">
+        <ion-icon name="people" aria-hidden="true"></ion-icon>
+        Área da família
+      </h2>
+      <p>Familiares e cuidadores podem cadastrar lembranças e organizar a rotina.</p>
+      @if (session.familyProfile(); as fam) {
+        <p class="em-muted em-small">Perfil fictício em uso: {{ fam.displayName }}</p>
+      }
+      <ion-button class="em-btn em-btn-xl" expand="block" (click)="openFamilyArea()">
+        Área da família
+        <ion-icon slot="end" name="chevron-forward" aria-hidden="true"></ion-icon>
+      </ion-button>
+    </section>
+
+    <app-reading-settings />
+
+    <section class="em-card em-stack" aria-labelledby="help-title">
+      <h2 id="help-title" class="em-section-title">
+        <ion-icon name="book-outline" aria-hidden="true"></ion-icon>
+        Ajuda
+      </h2>
+      <p>Passo a passo curto: ver lembranças, responder atividades, adicionar mídia e abrir a Área da família.</p>
+      <ion-button class="em-btn" expand="block" fill="outline" (click)="openHelp()">Abrir a ajuda</ion-button>
+    </section>
+
+    <section class="em-card em-stack" aria-labelledby="data-title">
+      <h2 id="data-title">Informações e dados locais</h2>
+      <p>
+        Tudo o que aparece aqui é inventado. As mudanças ficam só neste aparelho. Você pode voltar ao exemplo inicial
+        quando quiser.
+      </p>
+      @if (!demo.storageAvailable) {
+        <div class="em-notice em-notice-warn" role="status">
+          <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>
+          <p>
+            Este navegador não permite guardar dados. As mudanças valem só até a página ser fechada ou recarregada.
+          </p>
+        </div>
+      }
+      @if (demo.lastSaveError(); as problem) {
+        <div class="em-notice em-notice-error" role="alert">
+          <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>
+          <p>{{ problem }}</p>
+        </div>
+      }
+      <app-restore-demo />
+      <ion-button class="em-btn" expand="block" fill="clear" color="medium" (click)="backToEntry()">
+        <ion-icon slot="start" name="log-out-outline" aria-hidden="true"></ion-icon>
+        Voltar à tela de entrada
+      </ion-button>
+    </section>
+
+    <section class="em-notice" aria-label="Informações importantes">
+      <p>
+        Este aplicativo não foi validado para uso clínico. Não faz diagnóstico, não indica doses e não substitui
+        cuidadores nem profissionais de saúde. O acesso é simulado, sem sincronização entre aparelhos ou backup.
+      </p>
+    </section>
+
+    <app-demo-banner />
+  </main>
+</ion-content>

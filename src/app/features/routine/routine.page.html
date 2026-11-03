@@ -1,0 +1,63 @@
+<app-page-header title="Rotina" />
+
+<ion-content>
+  <main class="em-container">
+    <header class="em-stack">
+      <h1>Atividades de hoje</h1>
+      <p class="em-muted">{{ dayText() }}</p>
+    </header>
+
+    @if (loading()) {
+      <div class="em-skeleton" role="status" aria-busy="true">
+        <span></span><span></span><span></span>
+        <span class="em-visually-hidden">Carregando a rotina…</span>
+      </div>
+    } @else if (items().length === 0) {
+      <app-empty-state
+        icon="calendar-outline"
+        title="Nenhuma atividade para hoje"
+        message="A família pode combinar a rotina pela Área da Família, que fica no Perfil."
+      >
+        <ion-button class="em-btn" expand="block" (click)="openProfile()">Abrir o Perfil</ion-button>
+      </app-empty-state>
+    } @else {
+      <section class="em-progress" aria-label="Progresso de hoje">
+        <div class="em-progress-head">
+          <p class="em-lead" role="status">
+            Hoje {{ summary().done }} de {{ summary().total }}
+            {{ summary().done === 1 ? 'concluída' : 'concluídas' }}
+          </p>
+          <span class="em-progress-pct">{{ percent() }}%</span>
+        </div>
+        <div
+          class="em-progress-bar"
+          role="progressbar"
+          aria-label="Atividades concluídas hoje"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [attr.aria-valuenow]="percent()"
+        >
+          <span [style.width.%]="percent()"></span>
+        </div>
+      </section>
+      <p class="em-muted">Toque em uma atividade para responder.</p>
+
+      <ol class="em-list" aria-label="Atividades de hoje em ordem de horário">
+        @for (item of items(); track item.reminder.id) {
+          <li>
+            <a class="em-card em-card-link routine-card" [routerLink]="['/atividade', item.reminder.id]">
+              <div class="routine-time">{{ item.reminder.time | timeHuman }}</div>
+              <div class="routine-main">
+                <h2>{{ item.reminder.title }}</h2>
+                <p class="em-muted">{{ item.reminder.instruction }}</p>
+                <app-status-badge [status]="item.status" />
+              </div>
+              <ion-icon name="chevron-forward" aria-hidden="true"></ion-icon>
+              <span class="em-visually-hidden">Abrir para responder</span>
+            </a>
+          </li>
+        }
+      </ol>
+    }
+  </main>
+</ion-content>

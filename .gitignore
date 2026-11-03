@@ -1,0 +1,17 @@
+# Dependências e saídas de build
+node_modules/
+www/
+dist/
+out-tsc/
+.angular/
+
+# Editor / SO
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+*.log

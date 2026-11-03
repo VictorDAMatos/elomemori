@@ -1,0 +1,10 @@
+.em-textarea.short {
+  min-height: 5.5rem;
+}
+.error-list {
+  margin: 0.3rem 0 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

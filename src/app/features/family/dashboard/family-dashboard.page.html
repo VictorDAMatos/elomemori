@@ -1,0 +1,125 @@
+<app-page-header title="Área da Família" backHref="/tabs/perfil" />
+
+<ion-content>
+  <main class="em-container">
+    <app-family-context />
+    <app-recovery-notice />
+
+    <section class="em-stack" aria-labelledby="fd-today">
+      <h1 id="fd-today">Hoje na rotina de {{ assistedName() }}</h1>
+
+      @if (loading()) {
+        <div class="em-skeleton" role="status" aria-busy="true">
+          <span></span><span></span>
+          <span class="em-visually-hidden">Carregando o resumo…</span>
+        </div>
+      } @else if (summary().total === 0) {
+        <p class="em-muted">Não há atividades combinadas para hoje. Cadastre uma em “Rotina e lembretes”.</p>
+      } @else {
+        <div class="em-tile-grid" role="group" aria-label="Resumo das atividades de hoje">
+          <div class="em-tile tile-done">
+            <strong>{{ summary().done }}</strong>
+            <span><ion-icon name="checkmark-circle" aria-hidden="true"></ion-icon> Concluídas</span>
+          </div>
+          <div class="em-tile tile-pending">
+            <strong>{{ summary().pending }}</strong>
+            <span><ion-icon name="time" aria-hidden="true"></ion-icon> Pendentes</span>
+          </div>
+          <div class="em-tile tile-help">
+            <strong>{{ summary().help }}</strong>
+            <span><ion-icon name="help-buoy" aria-hidden="true"></ion-icon> Pediram ajuda</span>
+          </div>
+          <div class="em-tile tile-forgot">
+            <strong>{{ summary().forgot }}</strong>
+            <span><ion-icon name="help-circle" aria-hidden="true"></ion-icon> Não se lembram</span>
+          </div>
+        </div>
+
+        <ol class="em-list" aria-label="Atividades de hoje">
+          @for (item of items(); track item.reminder.id) {
+            <li class="em-card day-item">
+              <span class="day-time">{{ item.reminder.time | timeHuman }}</span>
+              <span class="day-title">{{ item.reminder.title }}</span>
+              <app-status-badge [status]="item.status" />
+            </li>
+          }
+        </ol>
+      }
+    </section>
+
+    <section class="em-stack" aria-labelledby="fd-actions">
+      <h2 id="fd-actions">O que você quer fazer?</h2>
+      @if (session.canEdit()) {
+        <ion-button class="em-btn em-btn-xl" expand="block" (click)="go('/familia/memorias/nova')">
+          <ion-icon slot="start" name="add-circle" aria-hidden="true"></ion-icon>
+          Nova lembrança
+        </ion-button>
+      }
+      <ion-button class="em-btn" expand="block" fill="outline" (click)="go('/familia/memorias')">
+        <ion-icon slot="start" name="albums-outline" aria-hidden="true"></ion-icon>
+        Lembranças ({{ memoryCount() }})
+      </ion-button>
+      <ion-button class="em-btn" expand="block" fill="outline" (click)="go('/familia/rotina')">
+        <ion-icon slot="start" name="calendar-outline" aria-hidden="true"></ion-icon>
+        Rotina e lembretes
+      </ion-button>
+      <ion-button class="em-btn" expand="block" fill="outline" (click)="go('/familia/perfis')">
+        <ion-icon slot="start" name="people-outline" aria-hidden="true"></ion-icon>
+        Gerenciar perfis familiares
+      </ion-button>
+    </section>
+
+    <section class="em-stack" aria-labelledby="fd-history">
+      <h2 id="fd-history">Respostas recentes</h2>
+      @if (history().length === 0) {
+        <p class="em-muted">Ainda não há respostas registradas. Elas aparecem aqui quando {{ assistedName() }} responde a uma atividade.</p>
+      } @else {
+        <ul class="em-list">
+          @for (log of history(); track log.id) {
+            <li class="em-card history-item">
+              <div>
+                <strong>{{ log.reminderTitle }}</strong>
+                <p class="em-muted em-small">{{ log.at | logTime }}</p>
+              </div>
+              <app-status-badge [status]="log.result" />
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    @if (notices().length) {
+      <section class="em-stack" aria-labelledby="fd-notices">
+        <h2 id="fd-notices">Pedidos de ajuda</h2>
+        <p class="em-muted em-small">Pedidos registrados na rotina de Ana.</p>
+        <ul class="em-list">
+          @for (n of notices(); track n.id) {
+            <li class="em-notice">
+              <ion-icon name="information-circle" aria-hidden="true"></ion-icon>
+              <div>
+                <p>{{ n.text }}</p>
+                <p class="em-muted em-small">{{ n.at | logTime }} · Estado: {{ n.status === 'attended' ? 'Atendido' : n.status === 'seen' ? 'Visualizado' : n.status === 'cancelled' ? 'Cancelado' : 'Solicitado' }}</p>
+                @if (n.status !== 'attended' && n.status !== 'cancelled') { <div class="notice-actions"><ion-button size="small" fill="outline" (click)="markNotice(n.id, 'seen')">Marcar visualizado</ion-button><ion-button size="small" (click)="markNotice(n.id, 'attended')">Marcar atendido</ion-button></div> }
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    <section class="em-stack" aria-labelledby="fd-more">
+      <h2 id="fd-more">Mais opções</h2>
+      <ion-button class="em-btn" expand="block" fill="outline" color="medium" (click)="viewAsAssisted()">
+        <ion-icon slot="start" name="person-circle-outline" aria-hidden="true"></ion-icon>
+        Ver como {{ assistedName() }}
+      </ion-button>
+      <app-restore-demo />
+      <ion-button class="em-btn" expand="block" fill="clear" color="medium" (click)="leave()">
+        <ion-icon slot="start" name="exit-outline" aria-hidden="true"></ion-icon>
+        Sair da Área da Família
+      </ion-button>
+    </section>
+
+    <app-demo-banner />
+  </main>
+</ion-content>

@@ -1,0 +1,39 @@
+.date-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.6fr 1fr;
+  gap: 0.6rem;
+}
+.person-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+.person-field {
+  flex: 1 1 12rem;
+}
+.error-list {
+  margin: 0.3rem 0 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.demo-library summary {
+  min-height: var(--em-touch);
+  display: flex;
+  align-items: center;
+  font-weight: 650;
+  cursor: pointer;
+}
+.demo-library .em-list {
+  margin-top: 0.5rem;
+}
+.em-chip ion-button {
+  --padding-start: 0.25rem;
+  --padding-end: 0.25rem;
+  margin: 0;
+  
+  min-height: 3rem;
+  min-width: 3rem;
+}

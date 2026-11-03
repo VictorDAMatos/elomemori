@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="t d">
+  <title id="t">Almoço de domingo (ilustração fictícia)</title>
+  <desc id="d">Mesa posta com uma panela grande, tigelas, pães e flores, sob uma luz quente de meio-dia.</desc>
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCE8C8"/>
+      <stop offset="1" stop-color="#F6D3A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#wall)"/>
+  <!-- janela -->
+  <rect x="80" y="60" width="200" height="190" rx="10" fill="#BFE3EA" stroke="#8A5A2B" stroke-width="10"/>
+  <line x1="180" y1="60" x2="180" y2="250" stroke="#8A5A2B" stroke-width="8"/>
+  <line x1="80" y1="155" x2="280" y2="155" stroke="#8A5A2B" stroke-width="8"/>
+  <circle cx="230" cy="105" r="22" fill="#FFE08A"/>
+  <!-- quadro -->
+  <rect x="540" y="80" width="170" height="120" rx="6" fill="#FFF8EC" stroke="#8A5A2B" stroke-width="8"/>
+  <circle cx="625" cy="140" r="30" fill="#E7A35F"/>
+  <path d="M570 185 q55 -60 110 0z" fill="#6AA88E"/>
+  <!-- mesa -->
+  <rect x="40" y="360" width="720" height="40" rx="8" fill="#9C6A3B"/>
+  <rect x="80" y="400" width="30" height="170" fill="#7E5429"/>
+  <rect x="690" y="400" width="30" height="170" fill="#7E5429"/>
+  <rect x="60" y="345" width="680" height="24" rx="6" fill="#FFFFFF"/>
+  <!-- panela -->
+  <ellipse cx="400" cy="340" rx="110" ry="14" fill="#00000022"/>
+  <path d="M300 250 h200 v70 a100 40 0 0 1 -200 0z" fill="#B24A3A"/>
+  <rect x="290" y="238" width="220" height="22" rx="10" fill="#8F3629"/>
+  <circle cx="400" cy="222" r="10" fill="#6F281F"/>
+  <path d="M345 200 q-10 -30 6 -50 M400 195 q-14 -34 6 -58 M455 200 q-10 -30 6 -50" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- tigelas -->
+  <path d="M150 300 h110 a55 50 0 0 1 -110 0z" fill="#3E8E8C"/>
+  <ellipse cx="205" cy="300" rx="55" ry="10" fill="#F2C46B"/>
+  <path d="M540 300 h110 a55 50 0 0 1 -110 0z" fill="#3E8E8C"/>
+  <ellipse cx="595" cy="300" rx="55" ry="10" fill="#7FB069"/>
+  <!-- pães -->
+  <ellipse cx="90" cy="338" rx="38" ry="18" fill="#D99A4E"/>
+  <ellipse cx="690" cy="338" rx="38" ry="18" fill="#D99A4E"/>
+  <!-- vaso de flores -->
+  <rect x="352" y="300" width="0" height="0"/>
+  <path d="M700 345 l14 -56 h40 l14 56z" fill="#C9743F" transform="translate(-50 0)"/>
+  <g transform="translate(-50 0)">
+    <circle cx="718" cy="270" r="14" fill="#E85D75"/>
+    <circle cx="745" cy="258" r="14" fill="#F2A541"/>
+    <circle cx="735" cy="283" r="12" fill="#FFFFFF"/>
+    <path d="M730 290 v-8" stroke="#3E7D4F" stroke-width="5"/>
+  </g>
+  <!-- cadeiras -->
+  <rect x="130" y="430" width="90" height="16" rx="6" fill="#B07C48"/>
+  <rect x="580" y="430" width="90" height="16" rx="6" fill="#B07C48"/>
+</svg>

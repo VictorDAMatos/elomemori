@@ -1,0 +1,12 @@
+.is-archived {
+  background: #f4f8f8;
+  border-style: dashed;
+}
+.archived-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+  font-weight: 700;
+  color: var(--em-pending-fg);
+}

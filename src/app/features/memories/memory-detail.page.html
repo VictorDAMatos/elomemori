@@ -1,0 +1,88 @@
+<app-page-header title="Lembrança" [backHref]="backHref()" />
+
+<ion-content>
+  <main class="em-container">
+    @if (memory(); as m) {
+      @if (m.archived) {
+        <div class="em-notice em-notice-warn" role="status">
+          <ion-icon name="archive-outline" aria-hidden="true"></ion-icon>
+          <p>Esta lembrança está arquivada. Só a Área da Família consegue vê-la.</p>
+        </div>
+      }
+
+      <article class="em-stack-lg">
+        <header class="em-stack">
+          <h1>{{ m.title }}</h1>
+          @if (m.date) {
+            <p class="em-muted em-lead">{{ m.date | memoryDate }}</p>
+          }
+        </header>
+
+        <section class="em-stack" aria-labelledby="story-title">
+          <h2 id="story-title" class="em-visually-hidden">História</h2>
+          <p class="story">{{ m.story }}</p>
+          @if (canReadAloud()) {
+            <ion-button
+              class="em-btn"
+              expand="block"
+              fill="outline"
+              [attr.aria-pressed]="speech.speaking()"
+              (click)="toggleReadAloud()"
+            >
+              @if (speech.speaking()) {
+                <ion-icon slot="start" name="stop-circle-outline" aria-hidden="true"></ion-icon>
+                Parar a leitura
+              } @else {
+                <ion-icon slot="start" name="volume-high-outline" aria-hidden="true"></ion-icon>
+                Ouvir a história
+              }
+            </ion-button>
+            <p class="em-hint" role="status">
+              @if (speech.speaking()) {
+                Lendo em voz alta…
+              }
+            </p>
+          }
+        </section>
+
+        @if (m.people.length) {
+          <section class="em-stack" aria-labelledby="people-title">
+            <h2 id="people-title" class="em-section-title">
+              <ion-icon name="people" aria-hidden="true"></ion-icon>
+              Pessoas desta lembrança
+            </h2>
+            <ul class="em-chips">
+              @for (p of m.people; track p) {
+                <li class="em-chip">{{ p }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (m.media.length) {
+          <section class="em-stack-lg" aria-labelledby="media-title">
+            <h2 id="media-title">Fotos, vídeos e músicas</h2>
+            @for (media of m.media; track media.id) {
+              <app-media-viewer [media]="media">
+                @if (session.familyProfile() && session.canEdit()) {
+                  <ion-button class="em-btn" fill="outline" (click)="editMemory()">
+                    <ion-icon slot="start" name="create-outline" aria-hidden="true"></ion-icon>
+                    Editar para anexar o arquivo de novo
+                  </ion-button>
+                }
+              </app-media-viewer>
+            }
+          </section>
+        }
+      </article>
+    } @else {
+      <app-empty-state
+        icon="albums-outline"
+        title="Esta lembrança não está disponível"
+        message="Ela pode ter sido arquivada ou excluída pela família. Você pode voltar e ver as outras lembranças."
+      >
+        <ion-button class="em-btn" expand="block" (click)="openMemories()">Voltar às lembranças</ion-button>
+      </app-empty-state>
+    }
+  </main>
+</ion-content>

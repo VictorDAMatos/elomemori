@@ -1,0 +1,86 @@
+<app-page-header title="Lembranças" backHref="/familia" />
+
+<ion-content>
+  <main class="em-container">
+    <app-family-context />
+
+    <h1>Gerenciar lembranças</h1>
+
+    @if (session.canEdit()) {
+      <ion-button class="em-btn em-btn-xl" expand="block" (click)="create()">
+        <ion-icon slot="start" name="add-circle" aria-hidden="true"></ion-icon>
+        Nova lembrança
+      </ion-button>
+    }
+
+    @if (archivedCount() > 0) {
+      <label class="em-choice">
+        <input type="checkbox" [checked]="showArchived()" (change)="toggleArchived($any($event.target).checked)" />
+        <span>Mostrar também as arquivadas ({{ archivedCount() }})</span>
+      </label>
+    }
+
+    @if (loading()) {
+      <div class="em-skeleton" role="status" aria-busy="true">
+        <span></span><span></span>
+        <span class="em-visually-hidden">Carregando as lembranças…</span>
+      </div>
+    } @else if (visible().length === 0) {
+      <app-empty-state
+        icon="albums-outline"
+        title="Ainda não há lembranças"
+        message="Comece cadastrando uma lembrança fictícia, com uma história curta e, se quiser, fotos, vídeos ou músicas de exemplo."
+      >
+        @if (session.canEdit()) {
+          <ion-button class="em-btn" expand="block" (click)="create()">Criar a primeira lembrança</ion-button>
+        }
+      </app-empty-state>
+    } @else {
+      <ul class="em-list" aria-label="Lembranças cadastradas">
+        @for (m of visible(); track m.id) {
+          <li class="em-card em-stack" [class.is-archived]="m.archived">
+            <div class="mem-head">
+              <h2>{{ m.title }}</h2>
+              <p class="em-muted em-small">
+                @if (m.date) {
+                  {{ m.date | memoryDate }} ·
+                }
+                {{ m.media.length }} {{ m.media.length === 1 ? 'arquivo' : 'arquivos' }}
+              </p>
+              @if (m.archived) {
+                <p class="archived-tag"><ion-icon name="archive-outline" aria-hidden="true"></ion-icon> Arquivada</p>
+              }
+            </div>
+            <div class="em-actions">
+              <ion-button class="em-btn" fill="outline" (click)="view(m)" [attr.aria-label]="'Ver ' + m.title">
+                <ion-icon slot="start" name="eye-outline" aria-hidden="true"></ion-icon>
+                Ver
+              </ion-button>
+              @if (session.canEdit()) {
+                <ion-button class="em-btn" fill="outline" (click)="edit(m)" [attr.aria-label]="'Editar ' + m.title">
+                  <ion-icon slot="start" name="create-outline" aria-hidden="true"></ion-icon>
+                  Editar
+                </ion-button>
+                @if (m.archived) {
+                  <ion-button class="em-btn" fill="outline" (click)="unarchive(m)" [attr.aria-label]="'Restaurar ' + m.title">
+                    <ion-icon slot="start" name="archive" aria-hidden="true"></ion-icon>
+                    Restaurar
+                  </ion-button>
+                } @else {
+                  <ion-button class="em-btn" fill="outline" (click)="archive(m)" [attr.aria-label]="'Arquivar ' + m.title">
+                    <ion-icon slot="start" name="archive-outline" aria-hidden="true"></ion-icon>
+                    Arquivar
+                  </ion-button>
+                }
+                <ion-button class="em-btn" fill="outline" color="danger" (click)="remove(m)" [attr.aria-label]="'Excluir ' + m.title">
+                  <ion-icon slot="start" name="trash-outline" aria-hidden="true"></ion-icon>
+                  Excluir
+                </ion-button>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </main>
+</ion-content>

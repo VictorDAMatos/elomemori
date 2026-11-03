@@ -1,0 +1,33 @@
+.tile-done {
+  color: var(--em-done-fg);
+  background: var(--em-done-bg);
+}
+.tile-pending {
+  color: var(--em-pending-fg);
+  background: var(--em-pending-bg);
+}
+.tile-help {
+  color: var(--em-help-fg);
+  background: var(--em-help-bg);
+}
+.tile-forgot {
+  color: var(--em-forgot-fg);
+  background: var(--em-forgot-bg);
+}
+.day-item,
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.9rem;
+}
+.day-time {
+  font-weight: 700;
+  color: var(--em-primary);
+  min-width: 3.2rem;
+}
+.day-title {
+  flex: 1 1 8rem;
+  font-weight: 650;
+}

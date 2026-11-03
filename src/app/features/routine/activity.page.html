@@ -1,0 +1,118 @@
+<app-page-header title="Atividade" backHref="/tabs/rotina" />
+
+<ion-content>
+  <main class="em-container">
+    @if (reminder(); as r) {
+      <section class="em-card em-stack" aria-labelledby="act-title">
+        <p class="act-time">{{ r.time | timeHuman }}</p>
+        <h1 id="act-title">{{ r.title }}</h1>
+        <p class="em-lead">{{ r.instruction }}</p>
+        <p class="em-muted em-small">{{ recurrenceText() }}</p>
+        <app-status-badge [status]="status()" />
+      </section>
+
+      @if (status() === 'pending') {
+        <section class="em-stack" aria-labelledby="act-question">
+          <h2 id="act-question">O que você quer fazer?</h2>
+          <ion-button class="em-btn em-btn-xl" expand="block" color="success" (click)="confirmDone()">
+            <ion-icon slot="start" name="checkmark" aria-hidden="true"></ion-icon>
+            Concluí
+          </ion-button>
+          <ion-button class="em-btn em-btn-xl" expand="block" fill="outline" (click)="needHelp()">
+            <ion-icon slot="start" name="help-buoy" aria-hidden="true"></ion-icon>
+            Preciso de ajuda
+          </ion-button>
+          <ion-button class="em-btn em-btn-xl" expand="block" fill="outline" color="medium" (click)="dontRemember()">
+            <ion-icon slot="start" name="help-circle" aria-hidden="true"></ion-icon>
+            Não me lembro
+          </ion-button>
+          <p class="em-hint">Sem pressa. Você pode responder quando estiver pronta, e não existe resposta errada.</p>
+        </section>
+      } @else {
+        <section class="em-card em-stack" aria-labelledby="act-result" role="status">
+          <h2 id="act-result">Sua resposta</h2>
+          @switch (status()) {
+            @case ('done') {
+              <p class="em-lead">Você concluiu esta atividade. Que bom!</p>
+            }
+            @case ('help') {
+              <div class="help-request-person">
+                <span class="person-avatar">@if (anaProfile()?.photoDataUrl) { <img [src]="anaProfile()?.photoDataUrl" alt="" /> } @else { {{ anaProfile()?.initials }} }</span>
+                <div><p class="em-lead">{{ anaProfile()?.displayName }} pediu ajuda.</p><p class="em-muted em-small">Pedido de ajuda</p></div>
+              </div>
+              <p>Escolha alguém da família para acompanhar este pedido. O aviso ficará registrado no aplicativo.</p>
+              @if (noticeRecorded()) {
+                <div class="em-notice" role="status"><ion-icon name="information-circle" aria-hidden="true"></ion-icon><p>Pedido registrado no aplicativo. O familiar poderá vê-lo na área da família.</p></div><ion-button class="em-btn" expand="block" fill="outline" color="medium" (click)="cancelHelpRequest()">Cancelar pedido</ion-button>
+              } @else if (contacts().length) {
+                <ion-button class="em-btn em-btn-xl" expand="block" (click)="openContacts()">Escolher familiar ou cuidador</ion-button>
+                @if (chosenContact(); as chosen) {
+                  <div class="selected-person"><span class="person-avatar">@if (chosen.photoDataUrl) { <img [src]="chosen.photoDataUrl" alt="" /> } @else { {{ chosen.initials }} }</span><div><strong>{{ chosen.displayName }}</strong><p>{{ chosen.relationLabel }}</p></div></div>
+                  <ion-button class="em-btn" expand="block" (click)="contactBy('message')">Enviar mensagem</ion-button>
+                  <ion-button class="em-btn" expand="block" color="danger" (click)="contactBy('call')">Ligar agora · urgente</ion-button>
+                }
+                @if (contactsPopupOpen()) {
+                  <div class="contact-backdrop" role="presentation" (click)="contactsPopupOpen.set(false)">
+                    <section class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-dialog-title" (click)="$event.stopPropagation()">
+                      <h2 id="contact-dialog-title">Quem você gostaria de chamar?</h2>
+                      <p>Toque na foto ou no nome de alguém que você conhece.</p>
+                      @for (contact of contacts(); track contact.id) {
+                        <button class="contact-option" type="button" (click)="chooseContact(contact.id)"><span class="person-avatar">{{ contact.initials }}</span><span><strong>{{ contact.displayName }}</strong><small>{{ contact.relationLabel }}</small></span></button>
+                      }
+                      <ion-button class="em-btn" expand="block" fill="outline" (click)="contactsPopupOpen.set(false)">Fechar</ion-button>
+                    </section>
+                  </div>
+                }
+              } @else {
+                <p class="em-muted">Ainda não há familiares cadastrados. Peça à família para criar um perfil no aplicativo.</p>
+              }
+            }
+            @case ('forgot') {
+              <p class="em-lead">Você disse que não se lembra. Tudo bem, isso acontece.</p>
+              <p class="em-muted">Sua resposta ficou registrada neste aparelho.</p>
+            }
+          }
+          <ion-button class="em-btn" expand="block" fill="outline" color="medium" (click)="undo()">
+            <ion-icon slot="start" name="arrow-undo" aria-hidden="true"></ion-icon>
+            Mudar minha resposta
+          </ion-button>
+        </section>
+        <ion-button class="em-btn em-btn-xl" expand="block" (click)="backToRoutine()">Voltar para a rotina</ion-button>
+      }
+    } @else {
+      <app-empty-state
+        icon="calendar-outline"
+        title="Esta atividade não foi encontrada"
+        message="Ela pode ter sido alterada ou removida pela família. Volte à rotina para ver as atividades de hoje."
+      >
+        <ion-button class="em-btn" expand="block" (click)="backToRoutine()">Voltar para a rotina</ion-button>
+      </app-empty-state>
+    }
+  </main>
+
+  @if (callActive()) {
+    <div class="call-overlay" role="dialog" aria-modal="true" aria-labelledby="call-person-name">
+      <section class="call-screen">
+        <div class="call-topline"><span>Ligação</span><span class="call-live-dot"></span></div>
+        <div class="call-person-avatar">{{ chosenContact()?.initials || '👤' }}</div>
+        <h2 id="call-person-name">{{ chosenContact()?.displayName || 'Contato' }}</h2>
+        <p class="call-status">{{ callPaused() ? 'Ligação em espera' : callMuted() ? 'Microfone silenciado' : 'Em chamada' }}</p>
+        <p class="call-duration">{{ callTime() }}</p>
+        <div class="call-controls">
+          <button type="button" class="call-control" [class.is-active]="callMuted()" (click)="toggleMute()" aria-label="Silenciar ou ativar microfone">
+            <ion-icon [name]="callMuted() ? 'mic-off' : 'mic'"></ion-icon><span>{{ callMuted() ? 'Ativar som' : 'Silenciar' }}</span>
+          </button>
+          <button type="button" class="call-control" [class.is-active]="callSpeaker()" (click)="toggleSpeaker()" aria-label="Ativar ou desativar viva-voz">
+            <ion-icon [name]="callSpeaker() ? 'volume-high' : 'volume-mute'"></ion-icon><span>{{ callSpeaker() ? 'Viva-voz ligado' : 'Viva-voz' }}</span>
+          </button>
+          <button type="button" class="call-control" [class.is-active]="callPaused()" (click)="togglePause()" aria-label="Colocar ligação em espera ou retomar">
+            <ion-icon [name]="callPaused() ? 'play' : 'pause'"></ion-icon><span>{{ callPaused() ? 'Retomar' : 'Em espera' }}</span>
+          </button>
+          <button type="button" class="call-control" (click)="feedback.info('Teclado numérico disponível nesta demonstração.')" aria-label="Teclado numérico">
+            <ion-icon name="keypad"></ion-icon><span>Teclado</span>
+          </button>
+        </div>
+        <button type="button" class="call-end-button" (click)="endCall()" aria-label="Desligar ligação"><ion-icon name="call"></ion-icon><span>Desligar</span></button>
+      </section>
+    </div>
+  }
+</ion-content>

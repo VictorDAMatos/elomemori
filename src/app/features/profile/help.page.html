@@ -1,0 +1,31 @@
+<app-page-header title="Ajuda" backHref="/tabs/perfil" />
+
+<ion-content>
+  <main class="em-container">
+    <h1>Como usar o EloMemori</h1>
+    <p class="em-muted">Toque em um assunto para ver o passo a passo.</p>
+
+    <div class="em-stack">
+      @for (topic of topics; track topic.title) {
+        <details class="em-card help-topic">
+          <summary>{{ topic.title }}</summary>
+          <ol>
+            @for (step of topic.steps; track step) {
+              <li>{{ step }}</li>
+            }
+          </ol>
+        </details>
+      }
+    </div>
+
+    <section class="em-notice" aria-label="Informações do aplicativo">
+      <p>
+        <strong>Informações do aplicativo:</strong> os dados são fictícios e o acesso é simulado. Não há sincronização entre aparelhos, backup ou notificações externas.
+        O aplicativo não faz diagnóstico nem indica doses.
+      </p>
+    </section>
+
+    <ion-button class="em-btn" expand="block" (click)="backToProfile()">Voltar ao Perfil</ion-button>
+    <app-demo-banner />
+  </main>
+</ion-content>

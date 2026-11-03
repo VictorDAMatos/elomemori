@@ -1,0 +1,25 @@
+.greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 3rem;
+}
+.next-time {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--em-primary);
+}
+.next-title {
+  font-weight: 650;
+}
+.done-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 650;
+  color: var(--em-done-fg);
+}
+.done-line ion-icon {
+  font-size: 1.6rem;
+  flex: none;
+}

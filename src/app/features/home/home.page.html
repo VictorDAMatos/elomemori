@@ -1,0 +1,53 @@
+<app-page-header title="Início" />
+
+<ion-content>
+  <header class="em-hero greeting">
+    <p class="em-hero-dim">{{ dayText() }}</p>
+    <h1>{{ greeting() }}, {{ firstName() }}</h1>
+  </header>
+
+  <main class="em-container">
+    <app-recovery-notice />
+
+    @if (showWelcome()) {
+      <section class="em-notice" aria-labelledby="welcome-title">
+        <ion-icon name="information-circle" aria-hidden="true"></ion-icon>
+        <div class="em-stack">
+          <h2 id="welcome-title">Bem-vinda ao EloMemori</h2>
+          <p>
+            Aqui você encontra as suas lembranças e as atividades do dia. Não tem pressa e não existe resposta errada.
+          </p>
+          <ion-button class="em-btn" fill="outline" (click)="dismissWelcome()">Entendi</ion-button>
+        </div>
+      </section>
+    }
+
+    <ion-button class="em-btn em-btn-xl" expand="block" (click)="openMemories()">
+      <ion-icon slot="start" name="images" aria-hidden="true"></ion-icon>
+      Ver lembranças
+    </ion-button>
+
+    <section class="em-card em-stack" aria-labelledby="next-title">
+      <h2 id="next-title">Próxima atividade</h2>
+      @if (next(); as item) {
+        <p class="next-time">{{ item.reminder.time | timeHuman }}</p>
+        <p class="em-lead next-title">{{ item.reminder.title }}</p>
+        <p class="em-muted">{{ item.reminder.instruction }}</p>
+        <ion-button class="em-btn" expand="block" fill="outline" (click)="openActivity(item.reminder.id)">
+          Ver esta atividade
+          <ion-icon slot="end" name="chevron-forward" aria-hidden="true"></ion-icon>
+        </ion-button>
+      } @else if (summary().total === 0) {
+        <p>Não há atividades combinadas para hoje.</p>
+      } @else {
+        <p class="done-line">
+          <ion-icon name="checkmark-circle" aria-hidden="true"></ion-icon>
+          Tudo certo por agora. Não há atividades esperando.
+        </p>
+        <ion-button class="em-btn" expand="block" fill="outline" (click)="openRoutine()">Ver a rotina de hoje</ion-button>
+      }
+    </section>
+
+    <app-demo-banner />
+  </main>
+</ion-content>

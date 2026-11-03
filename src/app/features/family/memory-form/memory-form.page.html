@@ -1,0 +1,277 @@
+<app-page-header [title]="isEdit() ? 'Editar lembrança' : 'Nova lembrança'" backHref="/familia/memorias" />
+
+<ion-content>
+  <main class="em-container">
+    <app-family-context />
+
+    @if (!session.canEdit()) {
+      <app-empty-state
+        icon="people-outline"
+        title="Este perfil só pode visualizar"
+        message="Para criar ou editar lembranças, volte e entre com um perfil que tenha a permissão “Visualizar e editar”."
+      >
+        <ion-button class="em-btn" expand="block" (click)="goBack()">Voltar às lembranças</ion-button>
+      </app-empty-state>
+    } @else if (notFound()) {
+      <app-empty-state
+        icon="albums-outline"
+        title="Lembrança não encontrada"
+        message="Ela pode ter sido excluída. Volte à lista para ver as lembranças que existem."
+      >
+        <ion-button class="em-btn" expand="block" (click)="goBack()">Voltar às lembranças</ion-button>
+      </app-empty-state>
+    } @else {
+      <h1>{{ isEdit() ? 'Editar lembrança' : 'Nova lembrança' }}</h1>
+      <p class="em-muted">
+        Os campos com asterisco (*) são obrigatórios.
+      </p>
+
+      @if (submitted() && errorList().length) {
+        <div #errorSummary class="em-notice em-notice-error" role="alert" tabindex="-1">
+          <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>
+          <div>
+            <strong>Falta corrigir:</strong>
+            <ul class="error-list">
+              @for (message of errorList(); track message) {
+                <li>{{ message }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+
+      <form class="em-stack-lg" (submit)="onSubmit($event)" novalidate>
+        <div class="em-field">
+          <label for="mf-title">Título *</label>
+          <input
+            id="mf-title"
+            class="em-input"
+            type="text"
+            autocomplete="off"
+            [value]="title()"
+            [attr.maxlength]="limits.memoryTitle"
+            [attr.aria-invalid]="errors()['title'] ? 'true' : null"
+            [attr.aria-describedby]="errors()['title'] ? 'mf-title-error' : null"
+            (input)="setTitle($any($event.target).value)"
+          />
+          @if (errors()['title']; as message) {
+            <p id="mf-title-error" class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </div>
+
+        <div class="em-field">
+          <label for="mf-story">História *</label>
+          <textarea
+            id="mf-story"
+            class="em-textarea"
+            [value]="story()"
+            [attr.maxlength]="limits.memoryStory"
+            [attr.aria-invalid]="errors()['story'] ? 'true' : null"
+            [attr.aria-describedby]="errors()['story'] ? 'mf-story-error mf-story-hint' : 'mf-story-hint'"
+            (input)="setStory($any($event.target).value)"
+          ></textarea>
+          <p id="mf-story-hint" class="em-hint">Escreva em poucas frases, com palavras simples. {{ story().length }}/{{ limits.memoryStory }}</p>
+          @if (errors()['story']; as message) {
+            <p id="mf-story-error" class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </div>
+
+        <fieldset aria-describedby="mf-date-hint">
+          <legend>Data (opcional)</legend>
+          <p id="mf-date-hint" class="em-hint">Se não souber a data exata, preencha só o ano, ou o ano e o mês.</p>
+          <div class="date-row">
+            <div class="em-field">
+              <label for="mf-year">Ano</label>
+              <input
+                id="mf-year"
+                class="em-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="4"
+                placeholder="1985"
+                autocomplete="off"
+                [value]="year()"
+                [attr.aria-invalid]="errors()['date'] ? 'true' : null"
+                (input)="setYear($any($event.target).value)"
+              />
+            </div>
+            <div class="em-field">
+              <label for="mf-month">Mês</label>
+              <select id="mf-month" class="em-select" (change)="setMonth($any($event.target).value)">
+                <option value="" [selected]="month() === ''">Não sei</option>
+                @for (name of months; track name; let i = $index) {
+                  <option [value]="'' + (i + 1)" [selected]="month() === '' + (i + 1)">{{ name }}</option>
+                }
+              </select>
+            </div>
+            <div class="em-field">
+              <label for="mf-day">Dia</label>
+              <input
+                id="mf-day"
+                class="em-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="2"
+                placeholder="15"
+                autocomplete="off"
+                [value]="day()"
+                [attr.aria-invalid]="errors()['date'] ? 'true' : null"
+                (input)="setDay($any($event.target).value)"
+              />
+            </div>
+          </div>
+          @if (errors()['date']; as message) {
+            <p class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </fieldset>
+
+        <fieldset>
+          <legend>Pessoas desta lembrança (opcional)</legend>
+          @if (people().length) {
+            <ul class="em-chips" aria-label="Pessoas adicionadas">
+              @for (p of people(); track p) {
+                <li class="em-chip">
+                  {{ p }}
+                  <ion-button fill="clear" size="small" color="medium" (click)="removePerson(p)" [attr.aria-label]="'Remover ' + p">
+                    <ion-icon slot="icon-only" name="close" aria-hidden="true"></ion-icon>
+                  </ion-button>
+                </li>
+              }
+            </ul>
+          }
+          <div class="person-row">
+            <div class="em-field person-field">
+              <label for="mf-person" class="em-visually-hidden">Nome de uma pessoa</label>
+              <input
+                id="mf-person"
+                class="em-input"
+                type="text"
+                autocomplete="off"
+                placeholder="Nome de uma pessoa"
+                [value]="personInput()"
+                (input)="personInput.set($any($event.target).value)"
+                (keydown.enter)="$event.preventDefault(); addPerson()"
+              />
+            </div>
+            <ion-button class="em-btn" fill="outline" (click)="addPerson()">Adicionar pessoa</ion-button>
+          </div>
+          @if (suggestions().length) {
+            <div class="em-stack">
+              <p class="em-hint">Toque para adicionar rapidamente:</p>
+              <ul class="em-chips">
+                @for (name of suggestions(); track name) {
+                  <li>
+                    <button type="button" class="em-chip" (click)="addPerson(name)">+ {{ name }}</button>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+          @if (errors()['people']; as message) {
+            <p class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </fieldset>
+
+        <fieldset>
+          <legend>Fotos, vídeos e músicas (opcional)</legend>
+          <div class="em-notice" role="note">
+            <ion-icon name="attach" aria-hidden="true"></ion-icon>
+            <p>
+              Os arquivos que você escolher <strong>não são enviados a nenhum servidor</strong>. Eles ficam disponíveis durante esta sessão; ao reabrir a página, pode ser preciso escolhê-los de novo. Limites: {{ maxSizes }}.
+            </p>
+          </div>
+
+          <input
+            #fileInput
+            class="em-visually-hidden"
+            type="file"
+            multiple
+            tabindex="-1"
+            aria-hidden="true"
+            [accept]="accept"
+            (change)="onFilesChosen($event)"
+          />
+          <input
+            #relinkInput
+            class="em-visually-hidden"
+            type="file"
+            tabindex="-1"
+            aria-hidden="true"
+            [accept]="accept"
+            (change)="onRelinkChosen($event)"
+          />
+          <ion-button class="em-btn" expand="block" fill="outline" (click)="openFilePicker()">
+            <ion-icon slot="start" name="attach" aria-hidden="true"></ion-icon>
+            Escolher arquivos
+          </ion-button>
+
+          @if (fileErrors().length) {
+            <div class="em-notice em-notice-error" role="alert">
+              <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>
+              <ul class="error-list">
+                @for (message of fileErrors(); track message) {
+                  <li>{{ message }}</li>
+                }
+              </ul>
+            </div>
+          }
+
+
+          @if (errors()['media']; as message) {
+            <p class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+
+          @if (media().length) {
+            <ul class="em-list" aria-label="Arquivos desta lembrança">
+              @for (m of media(); track m.id) {
+                <li class="em-card em-stack">
+                  <p class="em-small em-muted">
+                    {{ typeLabels[m.type] }} ·
+                    {{ m.source === 'demo' ? 'Mídia de exemplo' : 'Arquivo escolhido neste aparelho' }}
+                  </p>
+                  <app-media-viewer [media]="m">
+                    @if (m.source === 'session') {
+                      <ion-button class="em-btn" fill="outline" (click)="startRelink(m)">
+                        <ion-icon slot="start" name="refresh" aria-hidden="true"></ion-icon>
+                        Selecionar o arquivo de novo
+                      </ion-button>
+                    }
+                  </app-media-viewer>
+                  <ion-button
+                    class="em-btn"
+                    fill="outline"
+                    color="danger"
+                    (click)="removeMedia(m)"
+                    [attr.aria-label]="'Remover ' + m.name + ' desta lembrança'"
+                  >
+                    <ion-icon slot="start" name="trash-outline" aria-hidden="true"></ion-icon>
+                    Remover
+                  </ion-button>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="em-muted">Nenhum arquivo adicionado. A lembrança pode ter só a história.</p>
+          }
+        </fieldset>
+
+        @if (saving()) {
+          <div class="em-notice" role="status">
+            <ion-icon name="refresh" aria-hidden="true"></ion-icon>
+            <p>Salvando lembrança…</p>
+          </div>
+        }
+
+        <div class="em-stack">
+          <ion-button class="em-btn em-btn-xl" expand="block" type="submit" [disabled]="saving()">
+            <ion-icon slot="start" name="checkmark-circle" aria-hidden="true"></ion-icon>
+            Salvar lembrança
+          </ion-button>
+          <ion-button class="em-btn" expand="block" fill="outline" color="medium" [disabled]="saving()" (click)="cancel()">
+            Cancelar
+          </ion-button>
+        </div>
+      </form>
+    }
+  </main>
+</ion-content>

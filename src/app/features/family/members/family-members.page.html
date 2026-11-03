@@ -1,0 +1,144 @@
+<app-page-header title="Familiares" backHref="/familia" />
+
+<ion-content>
+  <main class="em-container">
+    <app-family-context />
+
+    <h1>Familiares e cuidadores</h1>
+
+    <div class="em-notice" role="note">
+      <ion-icon name="information-circle" aria-hidden="true"></ion-icon>
+      <p>
+        Esta lista reúne os perfis familiares deste aplicativo:
+        <strong>nenhum convite é enviado</strong> e não pedimos e-mail, telefone nem outros dados reais.
+      </p>
+    </div>
+
+    @if (!canManage()) {
+      <div class="em-notice em-notice-warn" role="status">
+        <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>
+        <p>Só um perfil com a permissão “Gerenciar tudo” pode mudar esta lista. Você pode apenas consultá-la.</p>
+      </div>
+    }
+
+    <ul class="em-list" aria-label="Familiares e cuidadores">
+      @for (m of members(); track m.profile.id) {
+        <li class="em-card em-stack">
+          <div class="member-head">
+            <span class="em-avatar member-photo" aria-hidden="true">@if (m.profile.photoDataUrl) { <img [src]="m.profile.photoDataUrl" alt="" /> } @else { {{ m.profile.initials }} }</span>
+            <div>
+              <h2>{{ m.profile.displayName }}</h2>
+              <label class="photo-upload" [for]="'member-photo-' + m.profile.id">{{ m.profile.photoDataUrl ? 'Trocar foto' : 'Adicionar foto' }}</label>
+              <input class="photo-input" [id]="'member-photo-' + m.profile.id" type="file" accept="image/jpeg,image/png,image/webp" (change)="changeMemberPhoto(m.profile.id, $event)" />
+              @if (m.profile.photoDataUrl) { <button class="photo-remove" type="button" (click)="removeMemberPhoto(m.profile.id)">Remover</button> }
+              <label class="photo-upload" [for]="'member-photo-' + m.profile.id">{{ m.profile.photoDataUrl ? 'Trocar foto' : 'Adicionar foto' }}</label>
+              <input class="photo-input" [id]="'member-photo-' + m.profile.id" type="file" accept="image/jpeg,image/png,image/webp" (change)="changeMemberPhoto(m.profile.id, $event)" />
+              @if (m.profile.photoDataUrl) { <button class="photo-remove" type="button" (click)="removeMemberPhoto(m.profile.id)">Remover</button> }
+              <p class="em-muted em-small">
+                {{ m.relationship.relation }}
+                @if (m.profile.id === activeId()) {
+                  · perfil em uso agora
+                }
+              </p>
+            </div>
+          </div>
+
+          @if (canManage()) {
+            <div class="em-field">
+              <label [for]="'perm-' + m.profile.id">Permissão</label>
+              <select
+                #permissionSelect
+                class="em-select"
+                [id]="'perm-' + m.profile.id"
+                (change)="changePermission(m, permissionSelect)"
+              >
+                @for (p of permissions; track p) {
+                  <option [value]="p" [selected]="m.relationship.permission === p">{{ labels[p] }}</option>
+                }
+              </select>
+            </div>
+            <ion-button
+              class="em-btn"
+              fill="outline"
+              color="danger"
+              [disabled]="m.profile.id === activeId()"
+              (click)="remove(m)"
+              [attr.aria-label]="'Remover ' + m.profile.displayName + ' da lista'"
+            >
+              <ion-icon slot="start" name="trash-outline" aria-hidden="true"></ion-icon>
+              Remover da lista
+            </ion-button>
+            @if (m.profile.id === activeId()) {
+              <p class="em-hint">Você está usando este perfil agora, então ele não pode ser removido.</p>
+            }
+          } @else {
+            <p><strong>Permissão:</strong> {{ labels[m.relationship.permission] }}</p>
+          }
+        </li>
+      }
+    </ul>
+
+    @if (canManage()) {
+      <section class="em-card em-stack" aria-labelledby="add-title">
+        <h2 id="add-title">Adicionar familiar</h2>
+        <form class="em-stack-lg" (submit)="add($event)" novalidate>
+          <div class="em-field">
+            <label for="fm-name">Nome *</label>
+            <input
+              id="fm-name"
+              class="em-input"
+              type="text"
+              autocomplete="off"
+              [value]="name()"
+              [attr.maxlength]="limits.familyName"
+              [attr.aria-invalid]="errors()['displayName'] ? 'true' : null"
+              [attr.aria-describedby]="errors()['displayName'] ? 'fm-name-error' : null"
+              (input)="name.set($any($event.target).value)"
+            />
+            @if (errors()['displayName']; as message) {
+              <p id="fm-name-error" class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+            }
+          </div>
+
+          <div class="em-field">
+            <label for="fm-relation">Parentesco *</label>
+            <input
+              id="fm-relation"
+              class="em-input"
+              type="text"
+              list="fm-relations"
+              autocomplete="off"
+              [value]="relation()"
+              [attr.maxlength]="limits.familyRelation"
+              [attr.aria-invalid]="errors()['relation'] ? 'true' : null"
+              [attr.aria-describedby]="errors()['relation'] ? 'fm-relation-error' : null"
+              (input)="relation.set($any($event.target).value)"
+            />
+            <datalist id="fm-relations">
+              @for (option of relationSuggestions; track option) {
+                <option [value]="option"></option>
+              }
+            </datalist>
+            @if (errors()['relation']; as message) {
+              <p id="fm-relation-error" class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+            }
+          </div>
+
+          <div class="em-field">
+            <label for="fm-permission">Permissão</label>
+            <select id="fm-permission" class="em-select" (change)="permission.set($any($event.target).value)">
+              @for (p of permissions; track p) {
+                <option [value]="p" [selected]="permission() === p">{{ labels[p] }}</option>
+              }
+            </select>
+          </div>
+
+          <ion-button class="em-btn em-btn-xl" expand="block" type="submit">
+            <ion-icon slot="start" name="add-circle" aria-hidden="true"></ion-icon>
+            Adicionar perfil
+          </ion-button>
+        </form>
+      </section>
+    }
+  </main>
+</ion-content>

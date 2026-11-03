@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="t d">
+  <title id="t">Festa junina no quintal (ilustração fictícia)</title>
+  <desc id="d">Bandeirinhas coloridas, uma fogueira pequena e uma mesa com milho e bolo, ao entardecer.</desc>
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4C3B7A"/>
+      <stop offset=".55" stop-color="#C96B6B"/>
+      <stop offset="1" stop-color="#F4B26B"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#dusk)"/>
+  <!-- estrelas -->
+  <g fill="#FFF3C9"><circle cx="90" cy="60" r="3"/><circle cx="250" cy="40" r="2.5"/><circle cx="470" cy="70" r="3"/><circle cx="640" cy="45" r="2.5"/><circle cx="730" cy="110" r="3"/></g>
+  <!-- bandeirinhas -->
+  <path d="M0 90 Q400 200 800 90" stroke="#3A2A1B" stroke-width="4" fill="none"/>
+  <g>
+    <polygon points="40,102 80,106 58,142" fill="#F25F5C"/>
+    <polygon points="130,124 170,130 148,166" fill="#FFE066"/>
+    <polygon points="220,144 260,152 238,188" fill="#70C1B3"/>
+    <polygon points="310,158 350,166 328,202" fill="#247BA0"/>
+    <polygon points="400,162 440,162 420,200" fill="#F25F5C"/>
+    <polygon points="490,160 530,152 510,190" fill="#FFE066"/>
+    <polygon points="580,148 620,138 602,176" fill="#70C1B3"/>
+    <polygon points="670,128 710,116 694,154" fill="#247BA0"/>
+  </g>
+  <!-- chão -->
+  <rect y="400" width="800" height="200" fill="#6B4A2B"/>
+  <path d="M0 440 q200 -30 400 0 t400 0 v160 h-800z" fill="#5A3E23"/>
+  <!-- fogueira -->
+  <g transform="translate(150 0)">
+    <path d="M60 520 l80 -30 M140 520 l-80 -30" stroke="#3B2614" stroke-width="14" stroke-linecap="round"/>
+    <path d="M100 500 q-48 -40 -12 -96 q6 36 32 26 q-14 -30 28 -64 q16 60 28 82 q10 22 -20 52z" fill="#F77F00"/>
+    <path d="M104 496 q-28 -26 -4 -64 q18 22 32 8 q10 28 -2 56z" fill="#FFD166"/>
+  </g>
+  <!-- mesa -->
+  <rect x="400" y="430" width="340" height="26" rx="6" fill="#FFFFFF"/>
+  <rect x="420" y="456" width="22" height="100" fill="#4A3320"/>
+  <rect x="698" y="456" width="22" height="100" fill="#4A3320"/>
+  <!-- bolo -->
+  <rect x="470" y="380" width="110" height="50" rx="8" fill="#E9A66B"/>
+  <rect x="470" y="372" width="110" height="18" rx="8" fill="#FFF3E0"/>
+  <circle cx="525" cy="362" r="8" fill="#E0566E"/>
+  <!-- milho -->
+  <g>
+    <ellipse cx="640" cy="414" rx="14" ry="30" fill="#F2C94C" transform="rotate(-18 640 414)"/>
+    <ellipse cx="672" cy="416" rx="14" ry="30" fill="#F2C94C" transform="rotate(14 672 416)"/>
+    <path d="M626 440 l10 -26 M686 442 l-10 -26" stroke="#6FA35B" stroke-width="9" stroke-linecap="round"/>
+  </g>
+  <!-- balões de papel -->
+  <g>
+    <ellipse cx="620" cy="250" rx="34" ry="44" fill="#F25F5C"/>
+    <rect x="608" y="290" width="24" height="12" fill="#8A3A36"/>
+    <ellipse cx="710" cy="300" rx="28" ry="38" fill="#FFE066"/>
+    <rect x="700" y="334" width="20" height="10" fill="#8F7A1F"/>
+  </g>
+</svg>

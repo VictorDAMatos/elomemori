@@ -1,0 +1,26 @@
+.rem-head {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+}
+.rem-time {
+  flex: none;
+  min-width: 3.4rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--em-primary);
+}
+.rem-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: var(--em-done-fg);
+}
+.rem-state.paused {
+  color: var(--em-pending-fg);
+}
+.is-paused {
+  background: #f4f8f8;
+  border-style: dashed;
+}

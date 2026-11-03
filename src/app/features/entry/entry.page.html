@@ -1,0 +1,27 @@
+<ion-content>
+  <header class="em-hero entry-header">
+    <img src="assets/icon/favicon.svg" alt="" width="64" height="64" />
+    <p class="em-wordmark"><span class="elo">Elo</span>Memori</p>
+    <p class="em-hero-dim">Memórias que aproximam</p>
+  </header>
+  <main class="em-container entry">
+    <div class="em-stack">
+      <h1>Olá, Ana. Vamos começar?</h1>
+      <p class="em-lead">Suas lembranças e sua rotina estão aqui.</p>
+    </div>
+    <section class="em-card em-stack" aria-labelledby="entry-assisted">
+      <h2 id="entry-assisted">Seu perfil</h2>
+      @if (assisted(); as ana) { <p><strong>{{ ana.displayName }}</strong></p> }
+      <ion-button class="em-btn em-btn-xl" expand="block" (click)="openAssisted()">
+        <ion-icon slot="start" name="heart" aria-hidden="true"></ion-icon> Entrar no meu perfil
+      </ion-button>
+    </section>
+    <section class="em-card em-stack" aria-labelledby="entry-family">
+      <h2 id="entry-family">Área da família</h2>
+      <p class="em-muted">Familiares e cuidadores acessam seus perfis em uma área separada.</p>
+      <ion-button class="em-btn em-btn-xl" expand="block" fill="outline" (click)="openFamilyProfiles()">
+        <ion-icon slot="start" name="people-outline" aria-hidden="true"></ion-icon> Ver perfis da família
+      </ion-button>
+    </section>
+  </main>
+</ion-content>

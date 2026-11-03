@@ -1,0 +1,186 @@
+<app-page-header [title]="isEdit() ? 'Editar atividade' : 'Nova atividade'" backHref="/familia/rotina" />
+
+<ion-content>
+  <main class="em-container">
+    <app-family-context />
+
+    @if (!session.canEdit()) {
+      <app-empty-state
+        icon="people-outline"
+        title="Este perfil só pode visualizar"
+        message="Para criar ou editar atividades, volte e entre com um perfil que tenha a permissão “Visualizar e editar”."
+      >
+        <ion-button class="em-btn" expand="block" (click)="goBack()">Voltar à rotina</ion-button>
+      </app-empty-state>
+    } @else if (notFound()) {
+      <app-empty-state
+        icon="calendar-outline"
+        title="Atividade não encontrada"
+        message="Ela pode ter sido excluída. Volte à lista para ver as atividades que existem."
+      >
+        <ion-button class="em-btn" expand="block" (click)="goBack()">Voltar à rotina</ion-button>
+      </app-empty-state>
+    } @else {
+      <h1>{{ isEdit() ? 'Editar atividade' : 'Nova atividade' }}</h1>
+      <p class="em-muted">Os campos com asterisco (*) são obrigatórios. Use apenas exemplos fictícios.</p>
+
+      @if (submitted() && errorList().length) {
+        <div #errorSummary class="em-notice em-notice-error" role="alert" tabindex="-1">
+          <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>
+          <div>
+            <strong>Falta corrigir:</strong>
+            <ul class="error-list">
+              @for (message of errorList(); track message) {
+                <li>{{ message }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+
+      <form class="em-stack-lg" (submit)="onSubmit($event)" novalidate>
+        <div class="em-field">
+          <label for="rf-title">Nome da atividade *</label>
+          <input
+            id="rf-title"
+            class="em-input"
+            type="text"
+            autocomplete="off"
+            [value]="title()"
+            [attr.maxlength]="limits.reminderTitle"
+            [attr.aria-invalid]="errors()['title'] ? 'true' : null"
+            [attr.aria-describedby]="errors()['title'] ? 'rf-title-error' : null"
+            (input)="set(title, $any($event.target).value)"
+          />
+          @if (errors()['title']; as message) {
+            <p id="rf-title-error" class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </div>
+
+        <div class="em-field">
+          <label for="rf-instruction">O que fazer, em uma frase simples *</label>
+          <textarea
+            id="rf-instruction"
+            class="em-textarea short"
+            [value]="instruction()"
+            [attr.maxlength]="limits.reminderInstruction"
+            [attr.aria-invalid]="errors()['instruction'] ? 'true' : null"
+            [attr.aria-describedby]="errors()['instruction'] ? 'rf-instruction-error rf-instruction-hint' : 'rf-instruction-hint'"
+            (input)="set(instruction, $any($event.target).value)"
+          ></textarea>
+          <p id="rf-instruction-hint" class="em-hint">{{ instruction().length }}/{{ limits.reminderInstruction }}</p>
+          @if (errors()['instruction']; as message) {
+            <p id="rf-instruction-error" class="em-error">
+              <ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}
+            </p>
+          }
+        </div>
+
+        <fieldset>
+          <legend>Tipo</legend>
+          <label class="em-choice">
+            <input type="radio" name="kind" value="activity" [checked]="kind() === 'activity'" (change)="set(kind, 'activity')" />
+            <span>Atividade do dia a dia</span>
+          </label>
+          <label class="em-choice">
+            <input type="radio" name="kind" value="medication" [checked]="kind() === 'medication'" (change)="set(kind, 'medication')" />
+            <span>Lembrete de remédio (apenas texto de exemplo)</span>
+          </label>
+          @if (kind() === 'medication') {
+            <div class="em-notice em-notice-warn" role="note">
+              <ion-icon name="information-circle" aria-hidden="true"></ion-icon>
+              <p>
+                O app <strong>não indica doses</strong> e não substitui a receita nem um profissional de saúde. Escreva só
+                um lembrete simples e fictício, como “Pegar o remédio na caixinha”. A atividade só será marcada como
+                concluída se a pessoa confirmar.
+              </p>
+            </div>
+          }
+        </fieldset>
+
+        <div class="em-field">
+          <label for="rf-time">Horário *</label>
+          <input
+            id="rf-time"
+            class="em-input"
+            type="time"
+            [value]="time()"
+            [attr.aria-invalid]="errors()['time'] ? 'true' : null"
+            (input)="set(time, $any($event.target).value)"
+          />
+          @if (errors()['time']; as message) {
+            <p class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </div>
+
+        <fieldset>
+          <legend>Quando acontece</legend>
+          @for (option of recurrenceOptions; track option.value) {
+            <label class="em-choice">
+              <input
+                type="radio"
+                name="recurrence"
+                [value]="option.value"
+                [checked]="recurrenceType() === option.value"
+                (change)="set(recurrenceType, option.value)"
+              />
+              <span>{{ option.label }}</span>
+            </label>
+          }
+
+          @if (recurrenceType() === 'weekly') {
+            <fieldset>
+              <legend>Dias da semana</legend>
+              @for (name of weekdays; track name; let i = $index) {
+                <label class="em-choice">
+                  <input type="checkbox" [checked]="days().includes(i)" (change)="toggleDay(i, $any($event.target).checked)" />
+                  <span>{{ name }}</span>
+                </label>
+              }
+            </fieldset>
+          }
+
+          @if (recurrenceType() === 'once') {
+            <div class="em-field">
+              <label for="rf-date">Data</label>
+              <input
+                id="rf-date"
+                class="em-input"
+                type="date"
+                [min]="today()"
+                [value]="onceDate()"
+                (input)="set(onceDate, $any($event.target).value)"
+              />
+            </div>
+          }
+
+          @if (errors()['recurrence']; as message) {
+            <p class="em-error"><ion-icon name="warning-outline" aria-hidden="true"></ion-icon>{{ message }}</p>
+          }
+        </fieldset>
+
+        <label class="em-choice em-switch-choice">
+          <span>Atividade ativa (aparece na rotina)</span>
+          <input class="em-switch" type="checkbox" role="switch" [checked]="active()" (change)="set(active, $any($event.target).checked)" />
+        </label>
+
+        @if (saving()) {
+          <div class="em-notice" role="status">
+            <ion-icon name="refresh" aria-hidden="true"></ion-icon>
+            <p>Salvando atividade…</p>
+          </div>
+        }
+
+        <div class="em-stack">
+          <ion-button class="em-btn em-btn-xl" expand="block" type="submit" [disabled]="saving()">
+            <ion-icon slot="start" name="checkmark-circle" aria-hidden="true"></ion-icon>
+            Salvar atividade
+          </ion-button>
+          <ion-button class="em-btn" expand="block" fill="outline" color="medium" [disabled]="saving()" (click)="cancel()">
+            Cancelar
+          </ion-button>
+        </div>
+      </form>
+    }
+  </main>
+</ion-content>

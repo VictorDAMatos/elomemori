@@ -1,0 +1,84 @@
+<app-page-header title="Rotina e lembretes" backHref="/familia" />
+
+<ion-content>
+  <main class="em-container">
+    <app-family-context />
+
+    <h1>Rotina e lembretes</h1>
+
+    <div class="em-notice" role="note">
+      <ion-icon name="information-circle" aria-hidden="true"></ion-icon>
+      <p>
+        Os lembretes só aparecem <strong>dentro do app</strong>: não há notificações, SMS nem e-mail de verdade. Os
+        lembretes de remédio são apenas <strong>exemplos de texto</strong>: o app não indica doses nem substitui a receita
+        ou um profissional de saúde.
+      </p>
+    </div>
+
+    @if (session.canEdit()) {
+      <ion-button class="em-btn em-btn-xl" expand="block" (click)="create()">
+        <ion-icon slot="start" name="add-circle" aria-hidden="true"></ion-icon>
+        Nova atividade
+      </ion-button>
+    }
+
+    @if (loading()) {
+      <div class="em-skeleton" role="status" aria-busy="true">
+        <span></span><span></span>
+        <span class="em-visually-hidden">Carregando as atividades…</span>
+      </div>
+    } @else if (reminders().length === 0) {
+      <app-empty-state
+        icon="calendar-outline"
+        title="Ainda não há atividades"
+        message="Cadastre a primeira atividade da rotina, como o café da manhã ou uma caminhada."
+      >
+        @if (session.canEdit()) {
+          <ion-button class="em-btn" expand="block" (click)="create()">Criar a primeira atividade</ion-button>
+        }
+      </app-empty-state>
+    } @else {
+      <ul class="em-list" aria-label="Atividades cadastradas, em ordem de horário">
+        @for (r of reminders(); track r.id) {
+          <li class="em-card em-stack" [class.is-paused]="!r.active">
+            <div class="rem-head">
+              <span class="rem-time">{{ r.time | timeHuman }}</span>
+              <div>
+                <h2>{{ r.title }}</h2>
+                <p class="em-muted em-small">
+                  {{ r.recurrence | recurrence }} · {{ r.kind === 'medication' ? 'Lembrete de remédio (exemplo)' : 'Atividade' }}
+                </p>
+              </div>
+            </div>
+            <p>{{ r.instruction }}</p>
+            <p class="rem-state" [class.paused]="!r.active">
+              <ion-icon [name]="r.active ? 'checkmark-circle' : 'pause-circle'" aria-hidden="true"></ion-icon>
+              {{ r.active ? 'Ativa' : 'Pausada' }}
+            </p>
+            @if (session.canEdit()) {
+              <div class="em-actions">
+                <ion-button class="em-btn" fill="outline" (click)="edit(r)" [attr.aria-label]="'Editar ' + r.title">
+                  <ion-icon slot="start" name="create-outline" aria-hidden="true"></ion-icon>
+                  Editar
+                </ion-button>
+                <ion-button
+                  class="em-btn"
+                  fill="outline"
+                  (click)="toggleActive(r)"
+                  [attr.aria-label]="(r.active ? 'Pausar ' : 'Reativar ') + r.title"
+                >
+                  <ion-icon slot="start" [name]="r.active ? 'pause-circle' : 'play-circle'" aria-hidden="true"></ion-icon>
+                  {{ r.active ? 'Pausar' : 'Reativar' }}
+                </ion-button>
+                <ion-button class="em-btn" fill="outline" color="danger" (click)="remove(r)" [attr.aria-label]="'Excluir ' + r.title">
+                  <ion-icon slot="start" name="trash-outline" aria-hidden="true"></ion-icon>
+                  Excluir
+                </ion-button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </main>
+</ion-content>

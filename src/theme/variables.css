@@ -1,0 +1,141 @@
+
+:root {
+  
+  --em-font-scale: 1.2;
+
+  
+  --em-font-display: 'Alata', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --em-font-numeric: 'Antonio', 'Arial Narrow', system-ui, sans-serif;
+
+  
+  --em-bg: #f4f8f8;
+  --em-surface: #ffffff;
+  --em-text: #1f2933;
+  --em-text-muted: #4a5560;
+  --em-primary: #0f5f6b;
+  --em-primary-contrast: #ffffff;
+  --em-border: #687d86; 
+  --em-card-border: #d2e0e4;
+  --em-focus: #0b57d0;
+  --em-danger: #a12727;
+  --em-danger-contrast: #ffffff;
+  --em-border-width: 1px;
+
+  
+  --em-navy: #12303f;
+  --em-navy-2: #1e4a5e;
+  --em-on-navy: #ffffff;
+  --em-on-navy-dim: #b9cfd8;
+  --em-aqua: #8ed8e2;
+  --em-amber: #8ed8e2;
+  --em-amber-lt: #c9edf0;
+  --em-mist: #e4eff4;
+  --em-mist-border: #bfd6e0;
+
+  
+  --em-cta-bg: #8ed8e2;
+  --em-cta-fg: #12303f;
+
+  
+  --em-done-fg: #14532d;
+  --em-done-bg: #ddf3e4;
+  --em-pending-fg: #7a4b00;
+  --em-pending-bg: #ffefc9;
+  --em-help-fg: #8b1e1e;
+  --em-help-bg: #fbe0e0;
+  --em-forgot-fg: #4b3a78;
+  --em-forgot-bg: #e9e2f7;
+
+  
+  --em-radius: 1.5rem;
+  --em-radius-sm: 1rem;
+  --em-touch: 3.5rem; 
+
+  
+  --ion-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ion-background-color: var(--em-bg);
+  --ion-background-color-rgb: 244, 248, 248;
+  --ion-text-color: var(--em-text);
+  --ion-text-color-rgb: 31, 41, 51;
+
+  --ion-color-primary: #0f5f6b;
+  --ion-color-primary-rgb: 15, 95, 107;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0d535e;
+  --ion-color-primary-tint: #276e7a;
+
+  --ion-color-success: #14532d;
+  --ion-color-success-rgb: 20, 83, 45;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #114a28;
+  --ion-color-success-tint: #2b6542;
+
+  --ion-color-danger: #a12727;
+  --ion-color-danger-rgb: 161, 39, 39;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #8e2222;
+  --ion-color-danger-tint: #aa3c3c;
+
+  --ion-color-medium: #4a5560;
+  --ion-color-medium-rgb: 74, 85, 96;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #414b54;
+  --ion-color-medium-tint: #5c6670;
+
+  
+  --ion-toolbar-background: var(--em-navy);
+  --ion-toolbar-color: var(--em-on-navy);
+  --ion-tab-bar-background: var(--em-navy);
+  --ion-tab-bar-color: var(--em-on-navy-dim);
+  --ion-tab-bar-color-selected: var(--em-amber-lt);
+}
+
+
+:root.em-high-contrast {
+  --em-bg: #ffffff;
+  --em-surface: #ffffff;
+  --em-text: #000000;
+  --em-text-muted: #000000;
+  --em-primary: #00323a;
+  --em-border: #000000;
+  --em-card-border: #000000;
+  --em-focus: #0000cc;
+  --em-danger: #7a0000;
+  --em-border-width: 2px;
+
+  --em-navy: #000000;
+  --em-navy-2: #000000;
+  --em-on-navy: #ffffff;
+  --em-on-navy-dim: #ffffff;
+  --em-aqua: #ffffff;
+  --em-amber: #ffffff;
+  --em-amber-lt: #ffffff;
+  --em-mist: #ffffff;
+  --em-mist-border: #000000;
+  --em-cta-bg: #000000;
+  --em-cta-fg: #ffffff;
+
+  --em-done-fg: #0b3d1e;
+  --em-done-bg: #ffffff;
+  --em-pending-fg: #5a3600;
+  --em-pending-bg: #ffffff;
+  --em-help-fg: #6b0000;
+  --em-help-bg: #ffffff;
+  --em-forgot-fg: #2e1f5a;
+  --em-forgot-bg: #ffffff;
+
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+  --ion-color-primary: #00323a;
+  --ion-color-primary-rgb: 0, 50, 58;
+  --ion-color-primary-shade: #002c33;
+  --ion-color-primary-tint: #1a474e;
+  --ion-color-medium: #000000;
+  --ion-color-medium-rgb: 0, 0, 0;
+  --ion-color-danger: #7a0000;
+  --ion-color-danger-rgb: 122, 0, 0;
+}

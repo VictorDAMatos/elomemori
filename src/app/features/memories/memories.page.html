@@ -1,0 +1,53 @@
+<app-page-header title="Memórias" />
+
+<ion-content>
+  <main class="em-container">
+    <div class="memory-list-heading">
+      <h1>Minhas lembranças</h1>
+      <div class="memory-sort">
+        <button class="memory-sort-trigger" type="button" aria-haspopup="dialog" [attr.aria-expanded]="sortPopupOpen()" (click)="sortPopupOpen.set(!sortPopupOpen())">
+          <span class="sort-trigger-label">Ordenar lembranças</span>
+          <strong>{{ order() === 'newest' ? 'Novo → Antigo' : 'Antigo → Novo' }}</strong>
+          <span aria-hidden="true">⌄</span>
+        </button>
+        @if (sortPopupOpen()) {
+          <div class="memory-sort-backdrop" (click)="sortPopupOpen.set(false)" (keydown.escape)="sortPopupOpen.set(false)">
+            <section class="memory-sort-popup" role="dialog" aria-modal="true" aria-labelledby="sort-popup-title" (click)="$event.stopPropagation()">
+              <h2 id="sort-popup-title">Como deseja organizar?</h2>
+              <button type="button" class="memory-sort-option" [class.selected]="order() === 'newest'" (click)="chooseOrder('newest')">
+                <span>Mais recentes primeiro</span><small>Novo → Antigo</small><span class="sort-check">{{ order() === 'newest' ? '✓' : '' }}</span>
+              </button>
+              <button type="button" class="memory-sort-option" [class.selected]="order() === 'oldest'" (click)="chooseOrder('oldest')">
+                <span>Mais antigas primeiro</span><small>Antigo → Novo</small><span class="sort-check">{{ order() === 'oldest' ? '✓' : '' }}</span>
+              </button>
+              <button type="button" class="sort-popup-close" (click)="sortPopupOpen.set(false)">Fechar</button>
+            </section>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="em-skeleton" role="status" aria-busy="true">
+        <span></span><span></span><span></span>
+        <span class="em-visually-hidden">Carregando as lembranças…</span>
+      </div>
+    } @else if (memories().length === 0) {
+      <app-empty-state
+        icon="albums-outline"
+        title="Ainda não há lembranças por aqui"
+        message="A família pode adicionar lembranças pela Área da Família, que fica no Perfil."
+      >
+        <ion-button class="em-btn" expand="block" (click)="openProfile()">Abrir o Perfil</ion-button>
+      </app-empty-state>
+    } @else {
+      <p class="em-muted">Toque em uma lembrança para abri-la.</p>
+      <ul class="em-list em-timeline" aria-label="Lista de lembranças">
+        @for (m of memories(); track m.id) {
+          <li><app-memory-card [memory]="m" /></li>
+        }
+      </ul>
+    }
+  </main>
+</ion-content>
+

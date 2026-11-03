@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="t d">
+  <title id="t">Quintal com roseiras (ilustração fictícia)</title>
+  <desc id="d">Quintal ensolarado com roseiras floridas, um banco de madeira e um varal ao fundo.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BFE3F2"/>
+      <stop offset="1" stop-color="#EAF6EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="660" cy="110" r="52" fill="#FFE08A"/>
+  <!-- nuvens -->
+  <g fill="#FFFFFF" opacity=".9">
+    <ellipse cx="170" cy="110" rx="70" ry="24"/><ellipse cx="215" cy="98" rx="46" ry="24"/>
+    <ellipse cx="420" cy="170" rx="60" ry="20"/><ellipse cx="458" cy="160" rx="36" ry="20"/>
+  </g>
+  <!-- muro -->
+  <rect y="250" width="800" height="120" fill="#EBCFA5"/>
+  <g stroke="#C9A878" stroke-width="3" opacity=".7">
+    <line x1="0" y1="290" x2="800" y2="290"/><line x1="0" y1="330" x2="800" y2="330"/>
+  </g>
+  <!-- gramado -->
+  <rect y="360" width="800" height="240" fill="#7FB069"/>
+  <path d="M0 420 q200 -40 400 0 t400 0 v180 h-800z" fill="#6FA35B"/>
+  <!-- varal -->
+  <line x1="40" y1="200" x2="360" y2="215" stroke="#6B4A2B" stroke-width="5"/>
+  <rect x="30" y="190" width="12" height="190" fill="#6B4A2B"/>
+  <rect x="356" y="205" width="12" height="175" fill="#6B4A2B"/>
+  <rect x="90" y="204" width="40" height="64" rx="4" fill="#F4F0E6"/>
+  <rect x="160" y="206" width="44" height="52" rx="4" fill="#E8A9A9"/>
+  <rect x="240" y="209" width="36" height="70" rx="4" fill="#9CC5E0"/>
+  <!-- roseiras -->
+  <g>
+    <path d="M520 560 q-10 -140 40 -190 M600 560 q0 -120 -30 -170 M680 560 q20 -130 60 -170" stroke="#3E7D4F" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <g fill="#3E7D4F"><ellipse cx="540" cy="450" rx="22" ry="10"/><ellipse cx="590" cy="470" rx="22" ry="10"/><ellipse cx="700" cy="450" rx="22" ry="10"/></g>
+    <circle cx="560" cy="372" r="26" fill="#E0566E"/><circle cx="560" cy="372" r="12" fill="#B8344D"/>
+    <circle cx="568" cy="392" r="22" fill="#F2A3B3"/><circle cx="568" cy="392" r="9" fill="#D9738A"/>
+    <circle cx="742" cy="384" r="26" fill="#F5C84B"/><circle cx="742" cy="384" r="11" fill="#D9A21E"/>
+    <circle cx="640" cy="420" r="20" fill="#FFFFFF"/><circle cx="640" cy="420" r="8" fill="#F2D6DC"/>
+  </g>
+  <!-- banco -->
+  <rect x="110" y="440" width="230" height="22" rx="6" fill="#B07C48"/>
+  <rect x="110" y="410" width="230" height="18" rx="6" fill="#C48E56"/>
+  <rect x="124" y="462" width="16" height="60" fill="#7E5429"/>
+  <rect x="310" y="462" width="16" height="60" fill="#7E5429"/>
+  <rect x="124" y="396" width="16" height="48" fill="#7E5429"/>
+  <rect x="310" y="396" width="16" height="48" fill="#7E5429"/>
+  <!-- regador -->
+  <path d="M420 520 h60 l-8 -44 h-44z" fill="#4F8FA8"/>
+  <path d="M480 500 l38 -26" stroke="#4F8FA8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M424 480 q-28 -4 -28 32" stroke="#4F8FA8" stroke-width="7" fill="none" stroke-linecap="round"/>
+</svg>
