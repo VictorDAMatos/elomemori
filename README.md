@@ -317,8 +317,6 @@ O projeto explora princípios de usabilidade e acessibilidade, incluindo:
 - Feedback visual após ações.
 - Ajustes de contraste e tamanho de texto.
 
-A interface também considera as heurísticas de usabilidade de Nielsen como referência de projeto. Isso não significa que o aplicativo tenha sido formalmente certificado ou validado por uma avaliação de usabilidade com usuários.
-
 ---
 
 <p align="center">
