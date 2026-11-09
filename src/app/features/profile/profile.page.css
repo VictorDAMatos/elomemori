@@ -14,3 +14,4 @@
 .photo-actions { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-top:.4rem; }
 .photo-upload { display:inline-flex; align-items:center; min-height:2.5rem; padding:.5rem .8rem; border:1px solid var(--em-border); border-radius:.75rem; color:var(--em-primary); font-weight:650; cursor:pointer; }
 #ana-photo { position:absolute; width:1px; height:1px; opacity:0; overflow:hidden; }
+.photo-actions label:has(+ #ana-photo:focus-visible) { outline:3px solid var(--em-focus); outline-offset:3px; }

@@ -5,9 +5,22 @@
     <title>EloMemori — demonstração acadêmica</title>
     <base href="/" />
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#12303F" />
     <meta name="description" content="Protótipo acadêmico com dados fictícios de apoio à rotina e às lembranças." />
+    <script>
+      /* Aplica o tema salvo antes da primeira pintura, evitando o "flash" claro. */
+      try {
+        var p = JSON.parse(localStorage.getItem('elomemori.demo.prefs.v1') || '{}');
+        if (p && p.darkMode === true) {
+          var r = document.documentElement;
+          r.classList.add('em-dark-mode');
+          r.setAttribute('data-theme', 'dark');
+          r.style.colorScheme = 'dark';
+          r.style.backgroundColor = '#0b1a22';
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="assets/icon/favicon.svg" />
   </head>
   <body>

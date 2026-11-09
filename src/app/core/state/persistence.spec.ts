@@ -154,6 +154,13 @@ describe('preferências e sessão', () => {
     expect(prefs.readAloud).toBeFalse();
   });
 
+  it('usa modo noturno desligado por padrão e ignora valor inválido', () => {
+    const storage = new MemoryStorage();
+    expect(loadPreferences(storage).darkMode).toBeFalse();
+    storage.setItem(STORAGE_KEYS.prefs, JSON.stringify({ darkMode: 'sim' }));
+    expect(loadPreferences(storage).darkMode).toBeFalse();
+  });
+
   it('guarda e recarrega preferências', () => {
     const storage = new MemoryStorage();
     savePreferences(storage, { textScale: 'xlarge', highContrast: true, readAloud: false, darkMode: true });

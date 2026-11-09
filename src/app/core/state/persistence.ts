@@ -261,6 +261,7 @@ export function loadPreferences(storage: KeyValueStorage | null): Preferences {
       textScale: oneOf(raw.textScale, SCALES) ? raw.textScale : DEFAULT_PREFERENCES.textScale,
       highContrast: typeof raw.highContrast === 'boolean' ? raw.highContrast : DEFAULT_PREFERENCES.highContrast,
       readAloud: typeof raw.readAloud === 'boolean' ? raw.readAloud : DEFAULT_PREFERENCES.readAloud,
+      darkMode: typeof raw.darkMode === 'boolean' ? raw.darkMode : DEFAULT_PREFERENCES.darkMode,
     };
   } catch {
     return { ...DEFAULT_PREFERENCES };

@@ -1,5 +1,5 @@
 .is-archived {
-  background: #f4f8f8;
+  background: var(--em-surface-soft);
   border-style: dashed;
 }
 .archived-tag {

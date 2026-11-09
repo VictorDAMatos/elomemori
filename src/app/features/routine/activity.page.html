@@ -56,7 +56,7 @@
                       <h2 id="contact-dialog-title">Quem você gostaria de chamar?</h2>
                       <p>Toque na foto ou no nome de alguém que você conhece.</p>
                       @for (contact of contacts(); track contact.id) {
-                        <button class="contact-option" type="button" (click)="chooseContact(contact.id)"><span class="person-avatar">{{ contact.initials }}</span><span><strong>{{ contact.displayName }}</strong><small>{{ contact.relationLabel }}</small></span></button>
+                        <button class="contact-option" type="button" (click)="chooseContact(contact.id)"><span class="person-avatar">@if (contact.photoDataUrl) { <img [src]="contact.photoDataUrl" alt="" /> } @else { {{ contact.initials }} }</span><span><strong>{{ contact.displayName }}</strong><small>{{ contact.relationLabel }}</small></span></button>
                       }
                       <ion-button class="em-btn" expand="block" fill="outline" (click)="contactsPopupOpen.set(false)">Fechar</ion-button>
                     </section>
@@ -92,26 +92,27 @@
   @if (callActive()) {
     <div class="call-overlay" role="dialog" aria-modal="true" aria-labelledby="call-person-name">
       <section class="call-screen">
-        <div class="call-topline"><span>Ligação</span><span class="call-live-dot"></span></div>
-        <div class="call-person-avatar">{{ chosenContact()?.initials || '👤' }}</div>
+        <div class="call-topline"><span>Ligação simulada</span><span class="call-live-dot" aria-hidden="true"></span></div>
+        <p class="call-sim-note">Simulação: nenhuma ligação real é feita. Toque em “Desligar” para voltar.</p>
+        <div class="call-person-avatar" aria-hidden="true">@if (chosenContact()?.photoDataUrl) { <img [src]="chosenContact()?.photoDataUrl" alt="" /> } @else { {{ chosenContact()?.initials || '👤' }} }</div>
         <h2 id="call-person-name">{{ chosenContact()?.displayName || 'Contato' }}</h2>
-        <p class="call-status">{{ callPaused() ? 'Ligação em espera' : callMuted() ? 'Microfone silenciado' : 'Em chamada' }}</p>
+        <p class="call-status" role="status" aria-live="polite">{{ callPaused() ? 'Ligação em espera' : callMuted() ? 'Microfone silenciado' : 'Em chamada' }}</p>
         <p class="call-duration">{{ callTime() }}</p>
         <div class="call-controls">
           <button type="button" class="call-control" [class.is-active]="callMuted()" (click)="toggleMute()" aria-label="Silenciar ou ativar microfone">
-            <ion-icon [name]="callMuted() ? 'mic-off' : 'mic'"></ion-icon><span>{{ callMuted() ? 'Ativar som' : 'Silenciar' }}</span>
+            <ion-icon [name]="callMuted() ? 'mic-off' : 'mic'" aria-hidden="true"></ion-icon><span>{{ callMuted() ? 'Ativar som' : 'Silenciar' }}</span>
           </button>
           <button type="button" class="call-control" [class.is-active]="callSpeaker()" (click)="toggleSpeaker()" aria-label="Ativar ou desativar viva-voz">
-            <ion-icon [name]="callSpeaker() ? 'volume-high' : 'volume-mute'"></ion-icon><span>{{ callSpeaker() ? 'Viva-voz ligado' : 'Viva-voz' }}</span>
+            <ion-icon [name]="callSpeaker() ? 'volume-high' : 'volume-mute'" aria-hidden="true"></ion-icon><span>{{ callSpeaker() ? 'Viva-voz ligado' : 'Viva-voz' }}</span>
           </button>
           <button type="button" class="call-control" [class.is-active]="callPaused()" (click)="togglePause()" aria-label="Colocar ligação em espera ou retomar">
-            <ion-icon [name]="callPaused() ? 'play' : 'pause'"></ion-icon><span>{{ callPaused() ? 'Retomar' : 'Em espera' }}</span>
+            <ion-icon [name]="callPaused() ? 'play' : 'pause'" aria-hidden="true"></ion-icon><span>{{ callPaused() ? 'Retomar' : 'Em espera' }}</span>
           </button>
-          <button type="button" class="call-control" (click)="feedback.info('Teclado numérico disponível nesta demonstração.')" aria-label="Teclado numérico">
-            <ion-icon name="keypad"></ion-icon><span>Teclado</span>
+          <button type="button" class="call-control" (click)="feedback.info('Teclado de demonstração: nenhum número é discado.')" aria-label="Teclado numérico">
+            <ion-icon name="keypad" aria-hidden="true"></ion-icon><span>Teclado</span>
           </button>
         </div>
-        <button type="button" class="call-end-button" (click)="endCall()" aria-label="Desligar ligação"><ion-icon name="call"></ion-icon><span>Desligar</span></button>
+        <button type="button" class="call-end-button" #endCallButton (click)="endCall()" aria-label="Desligar ligação"><ion-icon name="call" aria-hidden="true"></ion-icon><span>Desligar</span></button>
       </section>
     </div>
   }

@@ -22,6 +22,7 @@ export class PreferencesService {
   readonly textScale = computed(() => this._prefs().textScale);
   readonly highContrast = computed(() => this._prefs().highContrast);
   readonly readAloud = computed(() => this._prefs().readAloud);
+  readonly darkMode = computed(() => this._prefs().darkMode);
 
   constructor() {
     this.apply(this._prefs());
@@ -42,5 +43,11 @@ export class PreferencesService {
     const root = document.documentElement;
     root.style.setProperty('--em-font-scale', String(TEXT_SCALE_VALUES[prefs.textScale]));
     root.classList.toggle('em-high-contrast', prefs.highContrast);
+    root.classList.toggle('em-dark-mode', prefs.darkMode);
+    root.setAttribute('data-theme', prefs.darkMode ? 'dark' : 'light');
+    root.style.colorScheme = prefs.darkMode ? 'dark' : 'light';
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', prefs.darkMode ? '#0b1a22' : '#12303F');
   }
 }

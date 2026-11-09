@@ -19,12 +19,14 @@ export interface Preferences {
   textScale: TextScale;
   highContrast: boolean;
   readAloud: boolean;
+  darkMode: boolean;
 }
 
 export const DEFAULT_PREFERENCES: Preferences = {
   textScale: 'large',
   highContrast: false,
   readAloud: true,
+  darkMode: false,
 };
 export interface DemoSession {
   entered: boolean;

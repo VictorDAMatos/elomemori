@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal, OnDestroy } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, inject, input, signal, viewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonButton, IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -59,7 +59,16 @@ export class ActivityPage implements OnDestroy {
   private callInterval: ReturnType<typeof setInterval> | null = null;
   readonly callTime = computed(() => { const s = this.callSeconds(); return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; });
 
+  private readonly endCallButton = viewChild<ElementRef<HTMLButtonElement>>('endCallButton');
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.callActive()) this.endCall();
+    else if (this.contactsPopupOpen()) this.contactsPopupOpen.set(false);
+  }
+
   constructor() {
+    effect(() => { this.endCallButton()?.nativeElement.focus(); });
     addIcons({ arrowUndo, checkmark, helpBuoy, helpCircle, informationCircle, call, callOutline, mic, micOff, volumeHigh, volumeMute, keypad, pause, play });
   }
   async confirmDone(): Promise<void> {
@@ -111,7 +120,7 @@ export class ActivityPage implements OnDestroy {
     }
     await this.notifyFamily();
     if (this.noticeRecorded()) {
-      await this.feedback.info(`A opção de mensagem para ${contact.displayName} foi selecionada.`);
+      await this.feedback.info(`Mensagem simulada para ${contact.displayName}: nada é enviado para fora do aplicativo.`);
     }
   }
 

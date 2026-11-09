@@ -47,6 +47,19 @@
   --em-forgot-bg: #e9e2f7;
 
   
+  --em-switch-track: #dbe7e9;
+  --em-switch-border: #5f7882;
+  --em-switch-thumb: #ffffff;
+  --em-switch-track-on: #8bd9e4;
+  --em-switch-border-on: #2f8f9c;
+  --em-switch-thumb-on: #12323b;
+  --em-surface-soft: #f4f8f8;
+  --em-surface-tint: #e7f3f4;
+  --em-overlay: rgba(10, 30, 40, 0.55);
+  --em-shadow: 0 2px 8px rgba(18, 48, 63, 0.12);
+  --em-skeleton-a: #ece5d8;
+  --em-skeleton-b: #f7f2e8;
+  --em-media-bg: #ffffff;
   --em-radius: 1.5rem;
   --em-radius-sm: 1rem;
   --em-touch: 3.5rem; 
@@ -138,4 +151,105 @@
   --ion-color-medium-rgb: 0, 0, 0;
   --ion-color-danger: #7a0000;
   --ion-color-danger-rgb: 122, 0, 0;
+}
+
+
+/* Modo noturno: paleta escura com contraste AA (texto ~13:1, texto secundário ~7:1). */
+:root.em-dark-mode {
+  --em-bg: #0b1a22;
+  --em-surface: #12262f;
+  --em-text: #e8f1f3;
+  --em-text-muted: #b4c7cd;
+  --em-primary: #8ed8e2;
+  --em-primary-contrast: #0b1a22;
+  --em-border: #7e9aa4;
+  --em-card-border: #2c4651;
+  --em-focus: #ffd166;
+  --em-danger: #ff9b9b;
+  --em-danger-contrast: #3a0b0b;
+
+  --em-navy: #0b1a22;
+  --em-navy-2: #12303f;
+  --em-on-navy: #ffffff;
+  --em-on-navy-dim: #b9cfd8;
+  --em-mist: #16313d;
+  --em-mist-border: #2f5262;
+  --em-cta-bg: #8ed8e2;
+  --em-cta-fg: #0b1a22;
+
+  --em-done-fg: #a6e9bf;
+  --em-done-bg: #123524;
+  --em-pending-fg: #ffd98a;
+  --em-pending-bg: #3b2c0c;
+  --em-help-fg: #ffb3b3;
+  --em-help-bg: #461818;
+  --em-forgot-fg: #d5c8f5;
+  --em-forgot-bg: #2f2650;
+
+  --em-switch-track: #3a525c;
+  --em-switch-border: #9bb5bf;
+  --em-switch-thumb: #ffffff;
+  --em-switch-track-on: #8ed8e2;
+  --em-switch-border-on: #8ed8e2;
+  --em-switch-thumb-on: #0b1a22;
+  --em-surface-soft: #0f212a;
+  --em-surface-tint: #16313d;
+  --em-overlay: rgba(0, 0, 0, 0.7);
+  --em-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --em-skeleton-a: #1b343f;
+  --em-skeleton-b: #25444f;
+  --em-media-bg: #0b1a22;
+
+  --ion-background-color: #0b1a22;
+  --ion-background-color-rgb: 11, 26, 34;
+  --ion-text-color: #e8f1f3;
+  --ion-text-color-rgb: 232, 241, 243;
+  --ion-item-background: #12262f;
+  --ion-card-background: #12262f;
+  --ion-toolbar-background: #0b1a22;
+  --ion-tab-bar-background: #0b1a22;
+  --ion-tab-bar-color: #b9cfd8;
+  --ion-tab-bar-color-selected: #8ed8e2;
+  --ion-border-color: #2c4651;
+
+  --ion-color-primary: #8ed8e2;
+  --ion-color-primary-rgb: 142, 216, 226;
+  --ion-color-primary-contrast: #0b1a22;
+  --ion-color-primary-contrast-rgb: 11, 26, 34;
+  --ion-color-primary-shade: #7dbec7;
+  --ion-color-primary-tint: #99dce5;
+  --ion-color-success: #7fdc9f;
+  --ion-color-success-rgb: 127, 220, 159;
+  --ion-color-success-contrast: #0b1a22;
+  --ion-color-success-contrast-rgb: 11, 26, 34;
+  --ion-color-danger: #ff9b9b;
+  --ion-color-danger-rgb: 255, 155, 155;
+  --ion-color-danger-contrast: #3a0b0b;
+  --ion-color-danger-contrast-rgb: 58, 11, 11;
+  --ion-color-medium: #b4c7cd;
+  --ion-color-medium-rgb: 180, 199, 205;
+  --ion-color-medium-contrast: #0b1a22;
+  --ion-color-medium-contrast-rgb: 11, 26, 34;
+}
+
+/* Alto contraste + noturno: preto puro com texto branco e bordas fortes. */
+:root.em-dark-mode.em-high-contrast {
+  --em-bg: #000000;
+  --em-surface: #000000;
+  --em-text: #ffffff;
+  --em-text-muted: #ffffff;
+  --em-primary: #7fe3ee;
+  --em-border: #ffffff;
+  --em-card-border: #ffffff;
+  --em-mist: #000000;
+  --em-mist-border: #ffffff;
+  --em-border-width: 2px;
+  --em-done-bg: #000000;
+  --em-pending-bg: #000000;
+  --em-help-bg: #000000;
+  --em-forgot-bg: #000000;
+  --em-surface-soft: #000000;
+  --em-surface-tint: #000000;
+  --ion-background-color: #000000;
+  --ion-text-color: #ffffff;
 }

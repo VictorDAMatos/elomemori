@@ -100,6 +100,7 @@ A chamada é uma simulação dentro do aplicativo. Ela não utiliza a rede telef
 
 - Ajuste do tamanho do texto.
 - Opção de alto contraste.
+- Modo noturno persistente (Perfil → Ajustes de leitura → Aparência), com paleta escura própria e compatível com o alto contraste.
 - Opção de leitura em voz alta.
 - Estados visuais para controles de acessibilidade.
 - Interface pensada para facilitar leitura e interação.

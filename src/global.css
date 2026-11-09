@@ -152,7 +152,7 @@ ion-tab-bar .ion-focused {
   border: var(--em-border-width) solid var(--em-card-border);
   border-radius: var(--em-radius);
   padding: 1rem 1.1rem;
-  box-shadow: 0 1px 2px rgba(31, 41, 51, 0.08);
+  box-shadow: var(--em-shadow);
 }
 .em-card-link {
   display: block;
@@ -303,7 +303,7 @@ fieldset {
   padding: 0.8rem 1rem;
   border-radius: var(--em-radius-sm);
   border: var(--em-border-width) solid var(--em-card-border);
-  background: #eef4f5;
+  background: var(--em-mist);
   font-size: 0.95rem;
 }
 .em-notice ion-icon {
@@ -450,7 +450,7 @@ button.em-chip {
   display: block;
   height: 6rem;
   border-radius: var(--em-radius);
-  background: linear-gradient(90deg, #ece5d8 25%, #f6f1e7 50%, #ece5d8 75%);
+  background: linear-gradient(90deg, var(--em-skeleton-a) 25%, var(--em-skeleton-b) 50%, var(--em-skeleton-a) 75%);
   background-size: 200% 100%;
   animation: em-pulse 1.4s ease-in-out infinite;
 }
@@ -656,18 +656,46 @@ ion-header { display: block; }
   margin: 0;
   box-sizing: border-box;
 }
-.em-switch { appearance: none; -webkit-appearance: none; position: relative; flex: 0 0 3.2rem; width: 3.2rem; height: 1.8rem; border: 2px solid #78939b; border-radius: 999px; background: #dbe7e9; cursor: pointer; transition: background .18s ease, border-color .18s ease; }
-.em-switch::before { content: ''; position: absolute; width: 1.15rem; height: 1.15rem; left: .18rem; top: .12rem; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .18s ease; }
-.em-switch:checked { background: #8bd9e4; border-color: #4babb8; }
-.em-switch:checked::before { transform: translateX(1.35rem); background: #12323b; }
+.em-switch { appearance: none; -webkit-appearance: none; position: relative; flex: 0 0 3.2rem; width: 3.2rem; height: 1.8rem; border: 2px solid var(--em-switch-border); border-radius: 999px; background: var(--em-switch-track); cursor: pointer; transition: background .18s ease, border-color .18s ease; }
+.em-switch::before { content: ''; position: absolute; width: 1.15rem; height: 1.15rem; left: .18rem; top: .12rem; border-radius: 50%; background: var(--em-switch-thumb); box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .18s ease; }
+.em-switch:checked { background: var(--em-switch-track-on); border-color: var(--em-switch-border-on); }
+.em-switch:checked::before { transform: translateX(1.35rem); background: var(--em-switch-thumb-on); }
 .em-switch:focus-visible { outline: 3px solid var(--em-focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .em-switch, .em-switch::before { transition: none; } }
+.em-switch-text { display: flex; flex-direction: column; gap: .15rem; }
+.em-switch-text small { color: var(--em-text-muted); font-size: .9rem; }
 
-.em-switch { appearance: none; -webkit-appearance: none; position: relative; flex: 0 0 3.2rem; width: 3.2rem; height: 1.8rem; border: 2px solid #7a929b; border-radius: 999px; background: #52666e; cursor: pointer; transition: background .18s ease, border-color .18s ease; }
-.em-switch::before { content: ''; position: absolute; width: 1.15rem; height: 1.15rem; left: .18rem; top: .12rem; border-radius: 50%; background: #fff; transition: transform .18s ease; }
-.em-switch:checked { background: #8bd9e4; border-color: #8bd9e4; }
-.em-switch:checked::before { transform: translateX(1.35rem); background: #12323b; }
-.em-switch:focus-visible { outline: 3px solid #f4c96b; outline-offset: 3px; }
-html.em-dark-mode .em-choice { background: #b9e8f0; border-color: #8bd9e4; color: #14323a; }
-html.em-dark-mode .em-choice span, html.em-dark-mode .em-choice legend { color: #14323a; }
-html.em-dark-mode .em-choice input:not(.em-switch) { accent-color: #168e91; }
-html.em-dark-mode .em-hint { color: #d2e2e6; }
+/* Alto contraste + modo noturno: anula os fundos brancos do alto contraste claro. */
+:root.em-dark-mode.em-high-contrast .em-card-highlight,
+:root.em-dark-mode.em-high-contrast .em-choice:has(input:checked),
+:root.em-dark-mode.em-high-contrast .em-notice,
+:root.em-dark-mode.em-high-contrast .em-skeleton > span {
+  background: #000;
+  border-color: #fff;
+  color: #fff;
+}
+:root.em-dark-mode.em-high-contrast .em-progress,
+:root.em-dark-mode.em-high-contrast .em-progress-bar { background: #000; border-color: #fff; }
+:root.em-dark-mode.em-high-contrast .em-progress-bar > span { background: #fff; }
+
+/* Overlays do Ionic seguem o tema (alertas e toasts ficam fora do #root). */
+ion-alert.em-alert {
+  --background: var(--em-surface);
+  --color: var(--em-text);
+  --ion-text-color: var(--em-text);
+}
+ion-alert.em-alert .alert-title, ion-alert.em-alert .alert-message { color: var(--em-text); }
+ion-alert.em-alert .alert-button { color: var(--em-primary); }
+ion-toast.em-toast {
+  --background: var(--em-surface);
+  --color: var(--em-text);
+  --border-color: var(--em-border);
+  --border-width: 1px;
+  --border-style: solid;
+  --button-color: var(--em-primary);
+}
+:root.em-dark-mode ion-alert.em-alert .em-alert-danger-button { color: var(--em-danger); }
+:root.em-dark-mode input, :root.em-dark-mode select, :root.em-dark-mode textarea { color-scheme: dark; }
+
+/* Entradas de arquivo ocultas: o rótulo ao lado mostra o foco do teclado. */
+.photo-upload:has(+ .photo-input:focus-visible) { outline: 3px solid var(--em-focus); outline-offset: 3px; }

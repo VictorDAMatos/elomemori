@@ -21,6 +21,6 @@
   color: var(--em-pending-fg);
 }
 .is-paused {
-  background: #f4f8f8;
+  background: var(--em-surface-soft);
   border-style: dashed;
 }

@@ -23,12 +23,12 @@ const TYPE_ICONS: Record<MediaType, string> = { image: 'image', video: 'videocam
         border: var(--em-border-width) solid var(--em-card-border);
         border-radius: var(--em-radius);
         overflow: hidden;
-        box-shadow: 0 1px 2px rgba(31, 41, 51, 0.08);
+        box-shadow: var(--em-shadow);
       }
       .thumb {
         position: relative;
         aspect-ratio: 16 / 9;
-        background: #e7f3f4;
+        background: var(--em-surface-tint);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -80,7 +80,7 @@ const TYPE_ICONS: Record<MediaType, string> = { image: 'image', video: 'videocam
         border-radius: 999px;
         font-size: 0.9rem;
         font-weight: 600;
-        background: #f4f8f8;
+        background: var(--em-surface-soft);
       }
     `,
   ],

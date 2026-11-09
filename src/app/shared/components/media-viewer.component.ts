@@ -40,7 +40,7 @@ import { SessionMediaService } from '../../core/services/session-media.service';
         height: auto;
         max-height: 70vh;
         object-fit: contain;
-        background: #fff;
+        background: var(--em-media-bg);
       }
       .zoom-hint {
         position: absolute;
@@ -91,7 +91,8 @@ import { SessionMediaService } from '../../core/services/session-media.service';
         gap: 1rem;
         padding: 1rem;
         min-height: 100%;
-        background: #fff;
+        background: var(--em-surface);
+        color: var(--em-text);
       }
       .zoom-wrap img {
         width: 100%;

@@ -43,6 +43,7 @@ export class HelpPage {
         'Abra a aba “Perfil”.',
         'Em “Ajustes de leitura”, escolha Normal, Grande ou Muito grande.',
         'Se quiser, ligue o “Alto contraste”.',
+        'Para ambientes com pouca luz, ligue o “Modo noturno”. A escolha fica guardada neste aparelho.',
       ],
     },
     {
@@ -69,6 +70,31 @@ export class HelpPage {
         'Você pode continuar lendo a história da lembrança normalmente e voltar quando quiser.',
         'Arquivos escolhidos neste aparelho precisam ser anexados de novo depois que a página é reaberta.',
         'Na Área da Família, abra “Editar” na lembrança e use “Selecionar o arquivo de novo”.',
+      ],
+    },
+    {
+      title: 'Como pedir ajuda a um familiar',
+      steps: [
+        'Na atividade, toque em “Preciso de ajuda”.',
+        'Toque em “Escolher familiar ou cuidador” e escolha uma pessoa.',
+        'Toque em “Enviar mensagem” ou “Ligar agora”. Ambos são simulações: nada sai do aplicativo e nenhuma ligação real é feita.',
+        'Para encerrar a ligação simulada, toque em “Desligar” ou use a tecla Esc.',
+        'Para desistir do pedido, toque em “Cancelar pedido”.',
+      ],
+    },
+    {
+      title: 'Como ordenar as lembranças',
+      steps: [
+        'Abra a aba “Lembranças”.',
+        'Toque no botão de ordenação e escolha entre mais recentes ou mais antigas.',
+      ],
+    },
+    {
+      title: 'Como colocar uma foto no perfil (família)',
+      steps: [
+        'Na Área da Família, abra “Familiares” ou “Perfis”.',
+        'Toque em “Adicionar foto” ou “Trocar foto” e escolha uma imagem JPG, PNG ou WebP.',
+        'Para tirar a foto, toque em “Remover”.',
       ],
     },
     {

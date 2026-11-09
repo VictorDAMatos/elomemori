@@ -37,3 +37,22 @@ Checklist de revisão de código. A avaliação não é teste de usabilidade e n
 - A revisão não substitui uma auditoria de acessibilidade WCAG.
 - As permissões, autenticação e solicitações são fluxos simulados; não constituem segurança nem comunicação externa.
 - A execução/compilação precisa ser confirmada no ambiente com as dependências Angular/Ionic instaladas.
+
+## Rodada 2 (Parte I): notas de revisão de código
+
+Notas de 0 a 10 baseadas apenas em **revisão de código**; não houve teste com usuários nem execução do aplicativo (ver limitações).
+
+| # | Heurística | Nota inicial | Nota após ajustes | Ajustes aplicados |
+|---|---|---|---|---|
+| 1 | Visibilidade do estado | 7 | 8 | Rótulo “Ligação simulada”, `aria-live` no estado da chamada, aviso de demonstração visível (`DemoBannerComponent` antes vazio). |
+| 2 | Correspondência com o mundo real | 8 | 8 | Sem mudança; linguagem já cotidiana. |
+| 3 | Controle e liberdade | 7 | 8 | Tecla Esc fecha a ligação simulada e o diálogo de contatos; foco vai para “Desligar”. |
+| 4 | Consistência e padrões | 6 | 8 | Removido bloco de foto duplicado (ids repetidos) em Familiares; ícones decorativos com `aria-hidden`. |
+| 5 | Prevenção de erros | 7 | 7 | Pendente: guarda de alterações não salvas e marcadores de obrigatório nos formulários de perfil/login. |
+| 6 | Reconhecimento em vez de memorização | 8 | 8 | Fotos dos contatos agora aparecem no diálogo e na chamada. |
+| 7 | Flexibilidade e eficiência | 6 | 6 | Sem atalhos avançados (não aplicável a este público). |
+| 8 | Estética e minimalismo | 7 | 7 | Sem mudança. |
+| 9 | Diagnóstico e recuperação de erros | 6 | 7 | Ícone + texto nas mensagens de erro do login/cadastro. Pendente: erro por campo. |
+| 10 | Ajuda e documentação | 6 | 8 | Novos tópicos: pedido de ajuda/ligação simulada, ordenar lembranças, foto de perfil. |
+
+Pendências conhecidas: rotas `familia/perfis*` sem `enteredGuard` (mudaria comportamento; requer decisão); erros por campo e guarda de alterações não salvas em login/perfis.

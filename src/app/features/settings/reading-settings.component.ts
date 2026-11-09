@@ -29,6 +29,26 @@ import { SpeechService } from '../../core/services/speech.service';
       </fieldset>
 
       <fieldset>
+        <legend>Aparência</legend>
+        <label class="em-choice em-switch-choice" for="dark-mode-switch">
+          <span class="em-switch-text">
+            <strong id="dark-mode-title">Modo noturno</strong>
+            <small id="dark-mode-desc">Ative uma aparência mais confortável para ambientes com pouca iluminação.</small>
+          </span>
+          <input
+            id="dark-mode-switch"
+            class="em-switch"
+            type="checkbox"
+            role="switch"
+            aria-labelledby="dark-mode-title"
+            aria-describedby="dark-mode-desc"
+            [checked]="prefs.darkMode()"
+            (change)="setDarkMode($any($event.target).checked)"
+          />
+        </label>
+      </fieldset>
+
+      <fieldset>
         <legend>Outras opções</legend>
         <label class="em-choice">
           <input type="checkbox" [checked]="prefs.highContrast()" (change)="setContrast($any($event.target).checked)" />
@@ -62,6 +82,10 @@ export class ReadingSettingsComponent {
 
   setContrast(on: boolean): void {
     this.prefs.update({ highContrast: on });
+  }
+
+  setDarkMode(on: boolean): void {
+    this.prefs.update({ darkMode: on });
   }
 
   setReadAloud(on: boolean): void {

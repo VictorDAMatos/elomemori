@@ -9,12 +9,12 @@
 .memory-sort-trigger { display: flex; align-items: center; justify-content: space-between; gap: .75rem; width: 100%; padding: .8rem 1rem; border: 1px solid var(--em-border); border-radius: 1rem; background: var(--em-surface); color: var(--em-text); text-align: left; box-shadow: 0 3px 10px rgba(13, 45, 55, .08); cursor: pointer; }
 .memory-sort-trigger strong { color: var(--em-primary); font-size: .95rem; }
 .sort-trigger-label { font-size: .85rem; }
-.memory-sort-backdrop { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; padding: 1rem; background: rgba(5, 22, 29, .55); }
+.memory-sort-backdrop { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; padding: 1rem; background: var(--em-overlay); }
 .memory-sort-popup { width: min(100%, 25rem); padding: 1.15rem; border: 1px solid var(--em-border); border-radius: 1.25rem; background: var(--em-surface); color: var(--em-text); box-shadow: 0 16px 50px rgba(0,0,0,.28); }
 .memory-sort-popup h2 { margin: 0 0 1rem; font-size: 1.15rem; }
 .memory-sort-option { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; width: 100%; margin: .5rem 0; padding: .9rem 2.5rem .9rem 1rem; border: 1px solid var(--em-border); border-radius: .9rem; background: var(--em-bg); color: var(--em-text); text-align: left; cursor: pointer; }
 .memory-sort-option small { color: var(--em-text-muted); }
-.memory-sort-option.selected { border-color: var(--em-primary); background: #b9e8f0; color: #14323a; }
-.memory-sort-option.selected small { color: #28545d; }
+.memory-sort-option.selected { border-color: var(--em-primary); background: var(--em-mist); color: var(--em-text); }
+.memory-sort-option.selected small { color: var(--em-text-muted); }
 .sort-check { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; }
 .sort-popup-close { display: block; width: 100%; margin-top: .8rem; padding: .75rem; border: 0; border-radius: .8rem; background: var(--em-primary); color: var(--em-on-primary); font-weight: 600; cursor: pointer; }
