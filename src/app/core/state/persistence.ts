@@ -104,6 +104,7 @@ function sanitizeProfile(v: unknown): MockProfile | null {
     relationLabel: isStr(v.relationLabel) ? v.relationLabel : '',
     initials: isStr(v.initials) ? v.initials : '?',
     ...(isStr(v.photoDataUrl) && /^data:image\/(jpeg|png|webp);base64,/.test(v.photoDataUrl) && v.photoDataUrl.length <= 1_500_000 ? { photoDataUrl: v.photoDataUrl } : {}),
+    ...(isStr(v.phone) && /^\d{10,11}$/.test(v.phone) ? { phone: v.phone } : {}),
   };
 }
 

@@ -47,13 +47,17 @@
       <section class="help-block" aria-label="Pedir ajuda com este lembrete">
         <app-hold-button
           hintId="home-help-hint"
-          hint="Segure o botão por 5 segundos para pedir ajuda. Isso evita ligar por engano."
+          hint="Segure o botão por 5 segundos para pedir ajuda. Depois você escolhe quem chamar. Isso evita ligar por engano."
           (held)="requestHelp(item.reminder.id)"
         >
           <ion-icon name="call" aria-hidden="true"></ion-icon>
           Pedir ajuda com este lembrete
         </app-hold-button>
       </section>
+    }
+
+    @if (pendingReminderId()) {
+      <app-contact-picker [contacts]="contacts()" (picked)="pickContact($event)" (closed)="closePicker()" />
     }
 
     <button type="button" class="memories-tile" (click)="openMemories()">

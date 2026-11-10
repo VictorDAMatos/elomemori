@@ -46,7 +46,7 @@
               } @else if (contacts().length) {
                 <ion-button class="em-btn em-btn-xl" expand="block" (click)="openContacts()">Escolher familiar ou cuidador</ion-button>
                 @if (chosenContact(); as chosen) {
-                  <div class="selected-person"><span class="person-avatar">@if (chosen.photoDataUrl) { <img [src]="chosen.photoDataUrl" alt="" /> } @else { {{ chosen.initials }} }</span><div><strong>{{ chosen.displayName }}</strong><p>{{ chosen.relationLabel }}</p></div></div>
+                  <div class="selected-person"><span class="person-avatar">@if (chosen.photoDataUrl) { <img [src]="chosen.photoDataUrl" alt="" /> } @else { {{ chosen.initials }} }</span><div><strong>{{ chosen.displayName }}</strong><p>{{ chosen.relationLabel }}@if (chosen.phone) { · {{ formatPhone(chosen.phone) }} }</p></div></div>
                   <ion-button class="em-btn" expand="block" (click)="contactBy('message')">Enviar mensagem</ion-button>
                   <ion-button class="em-btn" expand="block" color="danger" (click)="contactBy('call')">Ligar agora · urgente</ion-button>
                 }
@@ -95,7 +95,9 @@
         <div class="call-topline"><span>Ligação simulada</span><span class="call-live-dot" aria-hidden="true"></span></div>
         <p class="call-sim-note">Simulação: nenhuma ligação real é feita. Toque em “Desligar” para voltar.</p>
         <div class="call-person-avatar" aria-hidden="true">@if (chosenContact()?.photoDataUrl) { <img [src]="chosenContact()?.photoDataUrl" alt="" /> } @else { {{ chosenContact()?.initials || '👤' }} }</div>
-        <h2 id="call-person-name">{{ chosenContact()?.displayName || 'Contato' }}</h2>
+        <h2 id="call-person-name" class="call-name">{{ chosenContact()?.displayName || 'Contato' }}</h2>
+        <p class="call-relation">{{ chosenContact()?.relationLabel }}</p>
+        @if (chosenContact()?.phone; as phone) { <p class="call-phone">{{ formatPhone(phone) }}</p> }
         <p class="call-status" role="status" aria-live="polite">{{ callPaused() ? 'Ligação em espera' : callMuted() ? 'Microfone silenciado' : 'Em chamada' }}</p>
         <p class="call-duration">{{ callTime() }}</p>
         <div class="call-controls">

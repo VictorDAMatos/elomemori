@@ -8,8 +8,10 @@ import { MockFamilyService } from '../../core/services/mock-family.service';
 import { MockMemoryService } from '../../core/services/mock-memory.service';
 import { MockRoutineService } from '../../core/services/mock-routine.service';
 import { MockSessionService } from '../../core/services/mock-session.service';
+import { formatPhone } from '../../core/util/phone';
 import { getBrowserStorage } from '../../core/state/persistence';
 import { formatLongDay, greetingFor } from '../../core/util/dates';
+import { ContactPickerComponent } from '../../shared/components/contact-picker.component';
 import { HoldButtonComponent } from '../../shared/components/hold-button.component';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { RecoveryNoticeComponent } from '../../shared/components/recovery-notice.component';
@@ -19,7 +21,7 @@ const WELCOME_KEY = 'elomemori.demo.welcome.v1';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [IonContent, IonButton, IonIcon, PageHeaderComponent, RecoveryNoticeComponent, HoldButtonComponent, TimeHumanPipe],
+  imports: [IonContent, IonButton, IonIcon, PageHeaderComponent, RecoveryNoticeComponent, HoldButtonComponent, ContactPickerComponent, TimeHumanPipe],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',
 })
@@ -38,8 +40,9 @@ export class HomePage {
   readonly next = this.routine.next;
   readonly summary = this.routine.summary;
   readonly memoryCount = computed(() => this.memoryService.memories().length);
-  /** Pessoa chamada no pedido de ajuda: primeiro familiar ou cuidador da lista. */
-  readonly helpContact = computed(() => this.family.demoProfiles()[0] ?? null);
+  /** Perfis que podem ser chamados: todos, menos o perfil familiar em uso. */
+  readonly contacts = computed(() => this.family.demoProfiles().filter((p) => p.id !== this.session.familyProfile()?.id));
+  readonly pendingReminderId = signal<string | null>(null);
   readonly doneRatio = computed(() => {
     const s = this.summary();
     return s.total ? Math.round((s.done / s.total) * 100) : 0;
@@ -58,17 +61,30 @@ export class HomePage {
     }
   }
 
-  /** Chamado depois de segurar o botão por 5 s: ainda pede uma confirmação antes da ligação simulada. */
-  async requestHelp(reminderId: string): Promise<void> {
-    const contact = this.helpContact();
-    if (!contact) {
-      await this.feedback.info('Ainda não há familiar ou cuidador cadastrado para receber o pedido.');
+  /** Chamado depois de segurar o botão por 5 s: abre a lista de contatos. */
+  requestHelp(reminderId: string): void {
+    if (!this.contacts().length) {
+      void this.feedback.info('Ainda não há familiar ou cuidador cadastrado para receber o pedido.');
       return;
     }
+    this.pendingReminderId.set(reminderId);
+  }
+
+  closePicker(): void {
+    this.pendingReminderId.set(null);
+  }
+
+  /** Contato escolhido: pede a confirmação final antes da ligação simulada. */
+  async pickContact(contactId: string): Promise<void> {
+    const reminderId = this.pendingReminderId();
+    const contact = this.contacts().find((p) => p.id === contactId);
+    if (!reminderId || !contact) return;
+    this.pendingReminderId.set(null);
+    const phone = contact.phone ? ` (${formatPhone(contact.phone)})` : '';
     const confirmed = await this.feedback.confirm({
       header: `Ligar para ${contact.displayName}?`,
-      message: 'Isto é uma simulação: nenhuma ligação real será feita. Você quer pedir ajuda com este lembrete?',
-      confirmText: 'Sim, pedir ajuda',
+      message: `${contact.relationLabel}${phone}. Isto é uma simulação: nenhuma ligação real será feita.`,
+      confirmText: 'Sim, ligar',
       cancelText: 'Não, voltar',
     });
     if (!confirmed) return;

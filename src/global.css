@@ -699,3 +699,46 @@ ion-toast.em-toast {
 
 /* Entradas de arquivo ocultas: o rótulo ao lado mostra o foco do teclado. */
 .photo-upload:has(+ .photo-input:focus-visible) { outline: 3px solid var(--em-focus); outline-offset: 3px; }
+
+/* ===== Animações =====
+   Tudo aqui é desligado pelo bloco prefers-reduced-motion mais acima (duração ~0). */
+@keyframes em-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes em-slide-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes em-pop-in { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes em-pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(98, 223, 154, .55); } 70% { box-shadow: 0 0 0 .8rem rgba(98, 223, 154, 0); } 100% { box-shadow: 0 0 0 0 rgba(98, 223, 154, 0); } }
+@keyframes em-blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* Entrada suave do conteúdo de cada tela, um bloco depois do outro. */
+.em-container > :not(app-contact-picker):not(app-family-context) { animation: em-slide-up .45s cubic-bezier(.2, .8, .2, 1) both; }
+.em-container > :nth-child(2) { animation-delay: .05s; }
+.em-container > :nth-child(3) { animation-delay: .1s; }
+.em-container > :nth-child(4) { animation-delay: .15s; }
+.em-container > :nth-child(5) { animation-delay: .2s; }
+.em-container > :nth-child(n+6) { animation-delay: .25s; }
+.em-hero { animation: em-fade-in .5s ease-out both; }
+.em-list > li { animation: em-slide-up .4s cubic-bezier(.2, .8, .2, 1) both; }
+.em-list > li:nth-child(2) { animation-delay: .05s; }
+.em-list > li:nth-child(3) { animation-delay: .1s; }
+.em-list > li:nth-child(4) { animation-delay: .15s; }
+.em-list > li:nth-child(n+5) { animation-delay: .2s; }
+
+/* Respostas ao toque e ao mouse. */
+ion-button.em-btn { transition: transform .12s ease, box-shadow .2s ease, filter .2s ease; }
+ion-button.em-btn:active { transform: scale(.97); }
+.em-card, .em-card-link { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.em-card-link:hover { transform: translateY(-2px); }
+.em-card-link:active { transform: scale(.99); }
+.memories-tile { transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease; }
+.memories-tile:hover { transform: translateY(-2px); border-color: var(--em-primary); }
+.memories-tile:active { transform: scale(.98); }
+ion-tab-button ion-icon { transition: transform .2s ease; }
+ion-tab-button.tab-selected ion-icon { transform: translateY(-2px) scale(1.15); }
+.em-input, .em-select, .em-textarea { transition: border-color .15s ease, box-shadow .15s ease; }
+.em-error, .em-notice, .em-hint { animation: em-fade-in .25s ease-out both; }
+.day-bar span { transition: width .6s cubic-bezier(.2, .8, .2, 1); }
+
+/* Janelas e telas sobrepostas. */
+.contact-backdrop, .memory-sort-backdrop, .call-overlay { animation: em-fade-in .2s ease-out both; }
+.contact-dialog, .memory-sort-popup, .call-screen { animation: em-pop-in .28s cubic-bezier(.2, .8, .2, 1) both; }
+.call-live-dot { animation: em-blink 1.4s ease-in-out infinite; }
+.call-person-avatar { animation: em-pulse-ring 2s ease-out infinite; }

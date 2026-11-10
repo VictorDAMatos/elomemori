@@ -51,6 +51,20 @@ export class MockFamilyService {
     return { ok: true, state: next, value: true };
   }
 
+  /** Guarda (ou apaga, com null) o telefone fictício de um perfil familiar. */
+  updateProfilePhone(profileId: string, phone: string | null): OpResult<true> {
+    const state = this.demo.state();
+    if (!state.profiles.some((p) => p.id === profileId)) return { ok: false, error: 'Perfil não encontrado.' };
+    if (phone !== null && !/^\d{10,11}$/.test(phone)) return { ok: false, error: 'Informe o telefone com DDD, por exemplo (11) 90000-0000.' };
+    const next = { ...state, profiles: state.profiles.map((p) => {
+      if (p.id !== profileId) return p;
+      const { phone: _old, ...rest } = p;
+      return phone ? { ...rest, phone } : rest;
+    }) };
+    this.demo.commit(next);
+    return { ok: true, state: next, value: true };
+  }
+
   remove(familyId: string): OpResult<true> {
     return this.apply(removeFamilyMember(this.demo.state(), familyId, this.session.familyProfile()?.id ?? null));
   }

@@ -9,6 +9,7 @@ import { MockRoutineService } from '../../core/services/mock-routine.service';
 import { MockFamilyService } from '../../core/services/mock-family.service';
 import { MockSessionService } from '../../core/services/mock-session.service';
 import { effectiveStatus } from '../../core/state/demo-engine';
+import { formatPhone } from '../../core/util/phone';
 import { describeRecurrence } from '../../core/util/dates';
 import { EmptyStateComponent } from '../../shared/components/empty-state.component';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
@@ -37,6 +38,7 @@ export class ActivityPage implements OnDestroy {
   readonly id = input<string>();
   /** Id do contato para iniciar a ligação simulada ao abrir (vem da tela inicial). */
   readonly ligar = input<string>();
+  readonly formatPhone = formatPhone;
   private autoCallStarted = false;
 
   readonly reminder = computed(() => this.routine.get(this.id()));

@@ -14,6 +14,7 @@ export const MOCK_PROFILES: MockProfile[] = [
     role: 'family',
     relationLabel: 'Filha',
     initials: 'MC',
+    phone: '11900000001',
   },
   {
     id: 'profile-pedro',
@@ -21,6 +22,7 @@ export const MOCK_PROFILES: MockProfile[] = [
     role: 'family',
     relationLabel: 'Neto',
     initials: 'PC',
+    phone: '11900000002',
   },
   {
     id: 'profile-julia',
@@ -28,6 +30,7 @@ export const MOCK_PROFILES: MockProfile[] = [
     role: 'family',
     relationLabel: 'Neta',
     initials: 'JC',
+    phone: '11900000003',
   },
 ];
 

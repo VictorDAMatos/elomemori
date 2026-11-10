@@ -9,6 +9,8 @@ export interface MockProfile {
   memberType?: 'family' | 'caregiver';
   initials: string;
   photoDataUrl?: string;
+  /** Telefone fictício de demonstração, só dígitos (10 ou 11). */
+  phone?: string;
 }
 
 export interface MockFamilyRelationship {
