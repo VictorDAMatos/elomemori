@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { enteredGuard, familyGuard, rootGuard } from './core/guards/session.guard';
+import { enteredGuard, familyGuard, ownProfileGuard, rootGuard } from './core/guards/session.guard';
 import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 const entry = () => import('./features/entry/entry.page').then((m) => m.EntryPage);
 const auth = () => import('./features/auth/auth.page').then((m) => m.AuthPage);
@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: 'login', loadComponent: auth },
   { path: 'familia/perfis', loadComponent: () => import('./features/family/profiles/family-profiles.page').then((m) => m.FamilyProfilesPage) },
   { path: 'familia/perfis/novo', loadComponent: () => import('./features/family/profiles/family-profile-form.page').then((m) => m.FamilyProfileFormPage) },
-  { path: 'familia/perfis/:id/editar', loadComponent: () => import('./features/family/profiles/family-profile-form.page').then((m) => m.FamilyProfileFormPage) },
+  { path: 'familia/perfis/:id/editar', canActivate: [ownProfileGuard], loadComponent: () => import('./features/family/profiles/family-profile-form.page').then((m) => m.FamilyProfileFormPage) },
 
   {
     path: 'tabs',

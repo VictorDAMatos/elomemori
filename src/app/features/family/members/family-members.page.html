@@ -28,9 +28,11 @@
             <span class="em-avatar member-photo" aria-hidden="true">@if (m.profile.photoDataUrl) { <img [src]="m.profile.photoDataUrl" alt="" /> } @else { {{ m.profile.initials }} }</span>
             <div>
               <h2>{{ m.profile.displayName }}</h2>
+              @if (m.profile.id === activeId()) {
               <label class="photo-upload" [for]="'member-photo-' + m.profile.id">{{ m.profile.photoDataUrl ? 'Trocar foto' : 'Adicionar foto' }}</label>
               <input class="photo-input" [id]="'member-photo-' + m.profile.id" type="file" accept="image/jpeg,image/png,image/webp" (change)="changeMemberPhoto(m.profile.id, $event)" />
               @if (m.profile.photoDataUrl) { <button class="photo-remove" type="button" (click)="removeMemberPhoto(m.profile.id)" [attr.aria-label]="'Remover foto de ' + m.profile.displayName">Remover</button> }
+              }
               <p class="em-muted em-small">
                 {{ m.relationship.relation }}
                 @if (m.profile.id === activeId()) {
