@@ -23,3 +23,14 @@
   font-size: 1.6rem;
   flex: none;
 }
+
+.next-card { border: 2px solid var(--em-primary); }
+.next-card h2 { display: flex; align-items: center; gap: .4rem; }
+.next-card .next-time { font-size: 2rem; }
+.help-block { margin-top: .25rem; }
+.memories-tile { display: flex; align-items: center; gap: 1rem; width: 100%; min-height: 5rem; padding: 1rem; border: 2px solid var(--em-card-border); border-radius: var(--em-radius, 1rem); background: var(--em-surface); color: var(--em-text); font: inherit; text-align: left; cursor: pointer; box-shadow: var(--em-shadow); }
+.memories-icon { display: grid; place-items: center; flex: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--em-primary); color: var(--em-primary-contrast); font-size: 1.8rem; }
+.memories-text { display: flex; flex-direction: column; flex: 1; gap: .2rem; font-size: 1.2rem; }
+.memories-text small { color: var(--em-text-muted); font-size: .95rem; }
+.day-bar { height: .9rem; border: 1px solid var(--em-border); border-radius: 999px; overflow: hidden; background: var(--em-mist); }
+.day-bar span { display: block; height: 100%; background: var(--em-primary); }

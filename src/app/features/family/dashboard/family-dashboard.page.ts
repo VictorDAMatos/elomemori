@@ -19,7 +19,6 @@ import { MockMemoryService } from '../../../core/services/mock-memory.service';
 import { MockRoutineService } from '../../../core/services/mock-routine.service';
 import { MockSessionService } from '../../../core/services/mock-session.service';
 import { simulatedLoading } from '../../../core/util/simulated-loading';
-import { DemoBannerComponent } from '../../../shared/components/demo-banner.component';
 import { FamilyContextComponent } from '../../../shared/components/family-context.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header.component';
 import { RecoveryNoticeComponent } from '../../../shared/components/recovery-notice.component';
@@ -38,7 +37,6 @@ import { LogTimePipe, TimeHumanPipe } from '../../../shared/pipes/format.pipes';
     RecoveryNoticeComponent,
     StatusBadgeComponent,
     RestoreDemoComponent,
-    DemoBannerComponent,
     TimeHumanPipe,
     LogTimePipe,
   ],

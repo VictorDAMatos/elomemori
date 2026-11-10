@@ -7,7 +7,6 @@ import { DemoStateService } from '../../core/services/demo-state.service';
 import { MockFamilyService } from '../../core/services/mock-family.service';
 import { FeedbackService } from '../../core/services/feedback.service';
 import { MockSessionService } from '../../core/services/mock-session.service';
-import { DemoBannerComponent } from '../../shared/components/demo-banner.component';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { RecoveryNoticeComponent } from '../../shared/components/recovery-notice.component';
 import { RestoreDemoComponent } from '../../shared/components/restore-demo.component';
@@ -23,7 +22,6 @@ import { ReadingSettingsComponent } from '../settings/reading-settings.component
     ReadingSettingsComponent,
     RestoreDemoComponent,
     RecoveryNoticeComponent,
-    DemoBannerComponent,
   ],
   templateUrl: './profile.page.html',
   styleUrl: './profile.page.css',

@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, HostListener, inject, input, signal, viewChild, OnDestroy } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, inject, input, signal, untracked, viewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonButton, IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -35,6 +35,9 @@ export class ActivityPage implements OnDestroy {
   readonly feedback = inject(FeedbackService);
   private readonly router = inject(Router);
   readonly id = input<string>();
+  /** Id do contato para iniciar a ligação simulada ao abrir (vem da tela inicial). */
+  readonly ligar = input<string>();
+  private autoCallStarted = false;
 
   readonly reminder = computed(() => this.routine.get(this.id()));
   readonly status = computed<ReminderStatus>(() => {
@@ -69,6 +72,16 @@ export class ActivityPage implements OnDestroy {
 
   constructor() {
     effect(() => { this.endCallButton()?.nativeElement.focus(); });
+    effect(() => {
+      const contactId = this.ligar();
+      if (!contactId || this.autoCallStarted || !this.contacts().some((p) => p.id === contactId)) return;
+      this.autoCallStarted = true;
+      untracked(() => {
+        this.selectedContact.set(contactId);
+        this.startCall();
+        void this.router.navigate([], { queryParams: { ligar: null }, queryParamsHandling: 'merge', replaceUrl: true });
+      });
+    });
     addIcons({ arrowUndo, checkmark, helpBuoy, helpCircle, informationCircle, call, callOutline, mic, micOff, volumeHigh, volumeMute, keypad, pause, play });
   }
   async confirmDone(): Promise<void> {

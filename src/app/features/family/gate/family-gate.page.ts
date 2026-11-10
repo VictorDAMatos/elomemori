@@ -4,13 +4,12 @@ import { IonButton, IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { informationCircle } from 'ionicons/icons';
 import { MockSessionService } from '../../../core/services/mock-session.service';
-import { DemoBannerComponent } from '../../../shared/components/demo-banner.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header.component';
 import { ProfilePickerComponent } from '../../../shared/components/profile-picker.component';
 @Component({
   selector: 'app-family-gate-page',
   standalone: true,
-  imports: [IonContent, IonButton, IonIcon, PageHeaderComponent, ProfilePickerComponent, DemoBannerComponent],
+  imports: [IonContent, IonButton, IonIcon, PageHeaderComponent, ProfilePickerComponent],
   template: `
     <app-page-header title="Área da Família" backHref="/tabs/perfil" />
     <ion-content>
@@ -24,7 +23,6 @@ import { ProfilePickerComponent } from '../../../shared/components/profile-picke
         </div>
         <app-profile-picker (picked)="enter($event)" />
         <ion-button class="em-btn" expand="block" fill="outline" (click)="cancel()">Voltar ao Perfil</ion-button>
-        <app-demo-banner />
       </main>
     </ion-content>
   `,

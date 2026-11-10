@@ -44,7 +44,7 @@ Notas de 0 a 10 baseadas apenas em **revisão de código**; não houve teste com
 
 | # | Heurística | Nota inicial | Nota após ajustes | Ajustes aplicados |
 |---|---|---|---|---|
-| 1 | Visibilidade do estado | 7 | 8 | Rótulo “Ligação simulada”, `aria-live` no estado da chamada, aviso de demonstração visível (`DemoBannerComponent` antes vazio). |
+| 1 | Visibilidade do estado | 7 | 8 | Rótulo “Ligação simulada”, `aria-live` no estado da chamada, (o aviso de demonstração foi removido a pedido). |
 | 2 | Correspondência com o mundo real | 8 | 8 | Sem mudança; linguagem já cotidiana. |
 | 3 | Controle e liberdade | 7 | 8 | Tecla Esc fecha a ligação simulada e o diálogo de contatos; foco vai para “Desligar”. |
 | 4 | Consistência e padrões | 6 | 8 | Removido bloco de foto duplicado (ids repetidos) em Familiares; ícones decorativos com `aria-hidden`. |

@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonButton, IonContent } from '@ionic/angular/standalone';
-import { DemoBannerComponent } from '../../shared/components/demo-banner.component';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 
 interface HelpTopic {
@@ -11,7 +10,7 @@ interface HelpTopic {
 @Component({
   selector: 'app-help-page',
   standalone: true,
-  imports: [IonContent, IonButton, PageHeaderComponent, DemoBannerComponent],
+  imports: [IonContent, IonButton, PageHeaderComponent],
   templateUrl: './help.page.html',
   styleUrl: './help.page.css',
 })

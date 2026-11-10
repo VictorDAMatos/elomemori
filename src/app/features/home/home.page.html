@@ -22,19 +22,14 @@
       </section>
     }
 
-    <ion-button class="em-btn em-btn-xl" expand="block" (click)="openMemories()">
-      <ion-icon slot="start" name="images" aria-hidden="true"></ion-icon>
-      Ver lembranças
-    </ion-button>
-
-    <section class="em-card em-stack" aria-labelledby="next-title">
-      <h2 id="next-title">Próxima atividade</h2>
+    <section class="em-card em-stack next-card" aria-labelledby="next-title">
+      <h2 id="next-title"><ion-icon name="time" aria-hidden="true"></ion-icon> Próximo lembrete</h2>
       @if (next(); as item) {
         <p class="next-time">{{ item.reminder.time | timeHuman }}</p>
         <p class="em-lead next-title">{{ item.reminder.title }}</p>
         <p class="em-muted">{{ item.reminder.instruction }}</p>
         <ion-button class="em-btn" expand="block" fill="outline" (click)="openActivity(item.reminder.id)">
-          Ver esta atividade
+          Ver este lembrete
           <ion-icon slot="end" name="chevron-forward" aria-hidden="true"></ion-icon>
         </ion-button>
       } @else if (summary().total === 0) {
@@ -48,6 +43,37 @@
       }
     </section>
 
-    <app-demo-banner />
+    @if (next(); as item) {
+      <section class="help-block" aria-label="Pedir ajuda com este lembrete">
+        <app-hold-button
+          hintId="home-help-hint"
+          hint="Segure o botão por 5 segundos para pedir ajuda. Isso evita ligar por engano."
+          (held)="requestHelp(item.reminder.id)"
+        >
+          <ion-icon name="call" aria-hidden="true"></ion-icon>
+          Pedir ajuda com este lembrete
+        </app-hold-button>
+      </section>
+    }
+
+    <button type="button" class="memories-tile" (click)="openMemories()">
+      <span class="memories-icon" aria-hidden="true"><ion-icon name="images"></ion-icon></span>
+      <span class="memories-text">
+        <strong>Minhas lembranças</strong>
+        <small>{{ memoryCount() }} {{ memoryCount() === 1 ? 'lembrança guardada' : 'lembranças guardadas' }}. Toque para ver.</small>
+      </span>
+      <ion-icon name="chevron-forward" aria-hidden="true"></ion-icon>
+    </button>
+
+    @if (summary().total > 0) {
+      <section class="em-card em-stack" aria-labelledby="day-title">
+        <h2 id="day-title">Seu dia hoje</h2>
+        <p>{{ summary().done }} de {{ summary().total }} {{ summary().total === 1 ? 'atividade concluída' : 'atividades concluídas' }}</p>
+        <div class="day-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="doneRatio()" aria-label="Atividades concluídas hoje">
+          <span [style.width.%]="doneRatio()"></span>
+        </div>
+        <ion-button class="em-btn" expand="block" fill="outline" (click)="openRoutine()">Ver a rotina de hoje</ion-button>
+      </section>
+    }
   </main>
 </ion-content>
